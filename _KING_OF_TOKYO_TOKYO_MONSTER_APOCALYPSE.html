@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<title>KING OF TOKYO — MONSTER APOCALYPSE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+ --neon:#25e0ff;--pink:#ff2d95;--gold:#ffd34a;--grn:#49f2a1;--red:#ff4d4d;--pur:#a06bff;
+ --glass:rgba(11,17,38,.66);--line:rgba(120,190,255,.22);
+ --fd:'Orbitron',Impact,system-ui,sans-serif;--fb:'Rajdhani','Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%;width:100%;overflow:hidden;background:#04060f;color:#e6f0ff;font-family:var(--fb);touch-action:manipulation}
+body{position:fixed;inset:0}
+button,input,select{font-family:inherit}
+/* ---------- BACKGROUND ---------- */
+#bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:
+ radial-gradient(120% 80% at 50% 105%,#3b0a2a 0%,#12071f 45%,#04060f 75%),
+ linear-gradient(180deg,#05070f 0%,#0a0b1e 50%,#170a22 100%)}
+#bg .grid{position:absolute;inset:auto 0 0 0;height:38%;background-image:linear-gradient(rgba(37,224,255,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(37,224,255,.12) 1px,transparent 1px);background-size:44px 30px;transform:perspective(320px) rotateX(70deg);transform-origin:bottom;opacity:.35}
+#bg .moon{position:absolute;top:6%;right:12%;width:12vmin;height:12vmin;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3d0,#ffb36b 60%,#ff5b5b);box-shadow:0 0 90px 22px rgba(255,120,80,.35);filter:blur(.3px)}
+#bg .fire{position:absolute;left:0;right:0;bottom:0;height:34%;background:radial-gradient(60% 100% at 30% 100%,rgba(255,80,20,.42),transparent 70%),radial-gradient(50% 100% at 75% 100%,rgba(255,45,149,.35),transparent 70%);animation:flick 3.6s ease-in-out infinite;pointer-events:none}
+@keyframes flick{0%,100%{opacity:.75}50%{opacity:1}}
+#bg .vig{position:absolute;inset:0;background:radial-gradient(90% 70% at 50% 45%,transparent 40%,rgba(0,0,0,.72) 100%)}
+.sky{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;gap:2px;padding:0 0 0 0}
+.sky.far{opacity:.45;filter:blur(1px) saturate(.7)}
+.bld{flex:1 1 auto;background:linear-gradient(180deg,#131a35,#070a18);border-top:1px solid rgba(37,224,255,.25);
+ background-image:repeating-linear-gradient(0deg,transparent 0 7px,rgba(37,224,255,.13) 7px 10px),repeating-linear-gradient(90deg,transparent 0 6px,rgba(255,211,74,.10) 6px 10px),linear-gradient(180deg,#131a35,#070a18)}
+/* ---------- SCREENS ---------- */
+.screen{position:fixed;inset:0;z-index:2;display:none;flex-direction:column}
+.screen.active{display:flex}
+.center-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto}
+.sheet{width:min(820px,96vw);max-height:94%;overflow:auto;background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08)}
+h1,h2,h3{font-family:var(--fd);margin:0 0 10px}
+.title{font-family:var(--fd);font-weight:900;text-align:center;line-height:.95;letter-spacing:2px;
+ font-size:clamp(28px,7vw,64px);color:#fff;text-shadow:0 0 12px rgba(37,224,255,.8),0 0 34px rgba(255,45,149,.6);margin-bottom:6px}
+.title span{color:var(--pink)}
+.subtitle{text-align:center;letter-spacing:5px;font-family:var(--fd);font-size:clamp(9px,2.4vw,14px);color:var(--neon);opacity:.9;margin-bottom:18px}
+.btn{font-family:var(--fd);font-weight:700;letter-spacing:.6px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(44,64,116,.85),rgba(12,18,40,.92));color:#dff1ff;padding:11px 16px;border-radius:13px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.13);transition:transform .12s,box-shadow .18s,filter .18s;font-size:14px}
+.btn>*{pointer-events:none}
+.btn:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.12)}
+.btn:active:not(:disabled){transform:translateY(1px) scale(.985)}
+.btn:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.btn.primary{background:linear-gradient(180deg,#ff3f8e,#a3125a);border-color:#ff8dbf;box-shadow:0 0 22px rgba(255,45,149,.45)}
+.btn.go{background:linear-gradient(180deg,#00d6ff,#0068ab);border-color:#8bebff;color:#04131c;box-shadow:0 0 22px rgba(37,224,255,.42)}
+.btn.gold{background:linear-gradient(180deg,#ffd34a,#b8860b);border-color:#ffe89a;color:#2a1c00}
+.btn.ghost{background:rgba(255,255,255,.05)}
+.btn.sm{padding:7px 10px;font-size:11px;border-radius:10px}
+.menu-btns{display:flex;flex-direction:column;gap:12px;width:min(360px,86vw);margin:0 auto}
+.menu-btns .btn{padding:16px;font-size:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row.end{justify-content:flex-end}
+input[type=text],input:not([type]),select{background:rgba(4,8,20,.8);border:1px solid var(--line);color:#e6f0ff;border-radius:10px;padding:9px 11px;font-size:14px;font-weight:600;outline:none;min-width:0}
+input:focus,select:focus{border-color:var(--neon);box-shadow:0 0 0 2px rgba(37,224,255,.2)}
+label.lb{font-size:12px;letter-spacing:1px;opacity:.75;font-family:var(--fd)}
+/* ---------- SETUP ---------- */
+.seg{display:flex;gap:6px}
+.seg button{width:42px;height:38px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#cfe6ff;font-family:var(--fd);font-weight:700;cursor:pointer}
+.seg button.on{background:linear-gradient(180deg,#00d6ff,#0068ab);color:#04131c;border-color:#8bebff}
+.seats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px;margin:12px 0}
+.seat{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:8px}
+.seat-ava{width:48px;height:48px;flex:0 0 48px;border-radius:12px;border:1px solid var(--line);background:radial-gradient(circle at 40% 30%,rgba(255,255,255,.18),rgba(0,0,0,.4));font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.seat input{flex:1 1 70px;width:100%}
+.seat select{flex:0 0 108px}
+.picker{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pk{border:1px solid var(--line);border-radius:14px;padding:10px 6px;background:rgba(255,255,255,.05);cursor:pointer;text-align:center;color:#e6f0ff}
+.pk .e{font-size:32px;display:block;line-height:1;filter:drop-shadow(0 0 8px currentColor)}
+.pk .n{font-family:var(--fd);font-size:10px;margin-top:6px;letter-spacing:.5px}
+.pk.taken{opacity:.33}
+/* ---------- GAME ---------- */
+#screenGame{height:100dvh}
+.topbar{flex:0 0 auto;height:44px;display:flex;align-items:center;gap:8px;padding:0 8px;border-bottom:1px solid var(--line);background:rgba(5,9,22,.72);backdrop-filter:blur(10px);z-index:3}
+.brand{font-family:var(--fd);font-weight:900;font-size:13px;letter-spacing:1px;white-space:nowrap}
+.brand span{color:var(--pink)}
+.turn-chip{flex:1;min-width:0;text-align:center;font-family:var(--fd);font-size:12px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--gold);text-shadow:0 0 10px rgba(255,211,74,.5)}
+.ico{width:34px;height:34px;flex:0 0 34px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#dff1ff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ico>*{pointer-events:none}
+.game-grid{flex:1 1 auto;min-height:0;display:grid;gap:7px;padding:7px;grid-template-columns:clamp(158px,17vw,212px) minmax(0,1fr) clamp(168px,19vw,232px)}
+.col{min-height:0;min-width:0;display:flex;flex-direction:column;gap:6px}
+/* player panels */
+.pp{flex:1 1 0;min-height:0;position:relative;display:flex;gap:6px;align-items:center;padding:6px;border-radius:14px;
+ border:1px solid var(--line);background:linear-gradient(135deg,rgba(18,26,56,.8),rgba(8,12,28,.86));
+ box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.07);overflow:hidden;transition:.2s}
+.pp:before{content:'';position:absolute;inset:0;background:radial-gradient(70% 120% at 0% 0%,var(--mc,#25e0ff),transparent 62%);opacity:.16;pointer-events:none}
+.pp.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 26px rgba(255,211,74,.35)}
+.pp.in-tokyo{border-color:var(--pink);box-shadow:0 0 22px rgba(255,45,149,.35)}
+.pp.dead{filter:grayscale(1) brightness(.55)}
+.pp-ava{flex:0 0 auto;width:clamp(30px,5vh,46px);height:clamp(30px,5vh,46px);border-radius:12px;display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(circle at 38% 28%,rgba(255,255,255,.22),rgba(0,0,0,.55));border:1px solid var(--line)}
+.pp-ava .e{font-size:clamp(17px,3vh,27px);line-height:1;filter:drop-shadow(0 0 6px var(--mc,#25e0ff))}
+.pp-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pp-name{font-family:var(--fd);font-size:clamp(9px,1.35vh,12px);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.4px}
+.pp-stats{display:flex;gap:5px;font-size:clamp(10px,1.5vh,13px);font-weight:700}
+.pp-stats .st{display:flex;align-items:center;gap:2px;white-space:nowrap}
+.s-hp{color:#ff8b8b}.s-vp{color:var(--gold)}.s-en{color:var(--neon)}
+.pp-bar{height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+.pp-bar .fill{height:100%;width:100%;background:linear-gradient(90deg,#ff4d4d,#ff9f4d);transition:width .35s}
+.pp-cards{display:flex;gap:3px;flex-wrap:wrap;max-height:16px;overflow:hidden}
+.chip{font-family:var(--fd);font-size:8px;padding:1px 4px;border-radius:5px;background:rgba(160,107,255,.3);border:1px solid rgba(160,107,255,.55);cursor:pointer;letter-spacing:.3px}
+.pp-badge{position:absolute;top:3px;right:4px;font-family:var(--fd);font-size:7.5px;letter-spacing:.5px;padding:1px 5px;border-radius:6px;background:rgba(0,0,0,.5);border:1px solid var(--line);color:#bfe4ff}
+.pp.hit{animation:hitshake .42s}
+@keyframes hitshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+/* board */
+.board{flex:1 1 auto;min-height:0;display:flex;gap:10px;align-items:center;justify-content:center;padding:2px}
+.tslot{position:relative;height:100%;max-height:100%;aspect-ratio:4/5;max-width:48%;min-width:110px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+ border-radius:18px;border:1px solid var(--line);padding:8px 6px;overflow:hidden;
+ background:linear-gradient(180deg,rgba(255,45,149,.14),rgba(6,10,24,.85));box-shadow:0 14px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08)}
+.tslot:before{content:'';position:absolute;inset:-40% -10% auto -10%;height:80%;background:radial-gradient(circle,rgba(255,45,149,.25),transparent 65%);pointer-events:none}
+.tslot.occupied{border-color:var(--pink);box-shadow:0 0 28px rgba(255,45,149,.45),inset 0 1px 0 rgba(255,255,255,.1)}
+.tslot.enter{animation:pop .6s}
+@keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.08)}100%{transform:scale(1)}}
+.t-head{font-family:var(--fd);font-size:clamp(9px,1.5vh,13px);letter-spacing:1.5px;color:#ffd9ec;text-shadow:0 0 10px rgba(255,45,149,.7)}
+.t-mon{flex:1;display:flex;align-items:center;justify-content:center;font-size:clamp(34px,10vh,86px);line-height:1;filter:drop-shadow(0 0 16px rgba(255,45,149,.65))}
+.t-mon.empty{opacity:.25;font-size:clamp(20px,4vh,34px);font-family:var(--fd)}
+.t-name{font-family:var(--fd);font-size:clamp(8px,1.3vh,11px);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.t-foot{font-size:clamp(8px,1.25vh,11px);color:var(--gold);font-weight:700}
+/* dice */
+.tray{flex:0 0 auto;display:flex;gap:5px;justify-content:center;flex-wrap:wrap;padding:2px}
+.die{width:clamp(36px,6vh,54px);height:clamp(36px,6vh,54px);border-radius:12px;border:2px solid rgba(255,255,255,.18);cursor:pointer;position:relative;
+ background:linear-gradient(160deg,#f7fbff,#c3d3e8);color:#0b1226;font-family:var(--fd);font-weight:900;font-size:clamp(15px,2.6vh,24px);
+ display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(0,0,0,.5),inset 0 -3px 6px rgba(0,0,0,.18);transition:transform .15s,box-shadow .2s}
+.die>*{pointer-events:none}
+.die.blank{background:linear-gradient(160deg,#20304f,#0c1428);color:rgba(255,255,255,.2)}
+.die.kept{border-color:var(--gold);box-shadow:0 0 18px rgba(255,211,74,.6),inset 0 -3px 6px rgba(0,0,0,.2);transform:translateY(-4px)}
+.die.rolling{animation:roll .5s ease}
+@keyframes roll{0%{transform:rotate(0) scale(1)}30%{transform:rotate(180deg) scale(1.18)}60%{transform:rotate(320deg) scale(.9)}100%{transform:rotate(360deg) scale(1)}}
+.die.sel{outline:2px dashed var(--neon);outline-offset:2px}
+.controls{flex:0 0 auto;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.ticker{flex:0 0 auto;height:19px;overflow:hidden;font-size:11.5px;text-align:center;color:#a9c8ee;white-space:nowrap;text-overflow:ellipsis}
+/* shop */
+.shop-head{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.shop-head .en{font-family:var(--fd);font-size:14px;color:var(--neon);text-shadow:0 0 10px rgba(37,224,255,.6)}
+.shopcard{flex:1 1 0;min-height:0;position:relative;display:flex;flex-direction:column;gap:2px;padding:7px;border-radius:13px;cursor:pointer;overflow:hidden;
+ border:1px solid rgba(160,107,255,.4);background:linear-gradient(160deg,rgba(60,35,110,.75),rgba(9,12,30,.9));box-shadow:0 8px 20px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08);transition:.16s}
+.shopcard.buyable{border-color:var(--grn);box-shadow:0 0 18px rgba(73,242,161,.3)}
+.shopcard:hover{transform:translateY(-2px)}
+.shopcard .cn{font-family:var(--fd);font-size:clamp(8.5px,1.32vh,11.5px);letter-spacing:.3px;line-height:1.15}
+.shopcard .cx{font-size:clamp(9px,1.35vh,12px);line-height:1.2;color:#cfe0ff;opacity:.92;overflow:hidden;flex:1;min-height:0}
+.shopcard .cc{position:absolute;top:5px;right:5px;font-family:var(--fd);font-size:11px;color:var(--neon);background:rgba(0,0,0,.55);padding:1px 6px;border-radius:8px;border:1px solid var(--line)}
+.tagK,.tagD{font-family:var(--fd);font-size:7.5px;padding:1px 5px;border-radius:5px;align-self:flex-start}
+.tagK{background:rgba(73,242,161,.25);border:1px solid rgba(73,242,161,.6);color:#b6ffdd}
+.tagD{background:rgba(255,77,77,.22);border:1px solid rgba(255,77,77,.6);color:#ffc9c9}
+.shopcard.bought{animation:flash .5s}
+@keyframes flash{0%{filter:brightness(2.4)}100%{filter:brightness(1)}}
+/* modal */
+.modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(2,4,12,.72);backdrop-filter:blur(6px)}
+.modal.open{display:flex}
+.mbox{width:min(460px,94vw);max-height:88vh;overflow:auto;background:linear-gradient(160deg,rgba(24,32,66,.96),rgba(7,10,24,.97));border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 26px 70px rgba(0,0,0,.7)}
+.mtitle{font-family:var(--fd);font-size:16px;margin-bottom:8px;color:var(--gold)}
+.mtxt{font-size:15px;line-height:1.45;color:#d6e6ff}
+.err{position:fixed;left:0;right:0;top:0;z-index:99;background:#2a0000;border-bottom:2px solid #ff4d4d;color:#ffd7d7;font-family:monospace;font-size:11px;padding:6px 34px 6px 8px;max-height:36vh;overflow:auto}
+.err b{color:#ff9d9d}
+.err .x{position:absolute;top:4px;right:6px;background:#ff4d4d;color:#2a0000;border:0;border-radius:6px;width:22px;height:22px;cursor:pointer;font-weight:900}
+#toast{position:fixed;left:50%;bottom:12%;transform:translateX(-50%);z-index:40;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none}
+.tst{background:rgba(6,10,26,.92);border:1px solid var(--line);border-radius:12px;padding:8px 14px;font-weight:700;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.6);animation:tin .3s}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.lobby-row{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);margin-bottom:6px}
+.lobby-row .e{font-size:22px}
+.lobby-row .nm{flex:1;font-family:var(--fd);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--grn);box-shadow:0 0 8px var(--grn)}
+.dot.off{background:#ff4d4d;box-shadow:0 0 8px #ff4d4d}
+.code-big{font-family:var(--fd);font-size:34px;letter-spacing:9px;text-align:center;color:var(--gold);text-shadow:0 0 16px rgba(255,211,74,.55);padding:6px 0}
+.hint{font-size:12px;opacity:.7;line-height:1.35}
+.winburst{font-size:clamp(56px,14vw,110px);text-align:center;line-height:1;filter:drop-shadow(0 0 22px rgba(255,211,74,.8));animation:pop .8s}
+#flash{position:fixed;inset:0;z-index:15;pointer-events:none;background:radial-gradient(circle,rgba(255,80,60,.55),transparent 65%);opacity:0}
+#flash.on{animation:fl .4s}
+@keyframes fl{0%{opacity:.9}100%{opacity:0}}
+/* mobile */
+@media (max-width:920px),(max-height:560px){
+ .game-grid{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto;gap:5px;padding:5px}
+ .col-players{flex-direction:row;gap:4px;height:64px;flex:0 0 auto}
+ .pp{flex:1 1 0;min-width:0;padding:4px;flex-direction:column;align-items:flex-start;gap:2px;justify-content:center}
+ .pp-ava{width:22px;height:22px;border-radius:8px}
+ .pp-ava .e{font-size:14px}
+ .pp-cards{display:none}
+ .pp-name{font-size:8.5px}
+ .pp-stats{font-size:10px;gap:4px}
+ .col-shop{flex-direction:row;height:96px;flex:0 0 auto;align-items:stretch}
+ .shop-head{flex-direction:column;justify-content:center;flex:0 0 50px}
+ .shopcard{flex:1 1 0;min-width:0}
+ .shopcard .cx{font-size:9.5px}
+ .tslot{min-width:92px;padding:5px 4px}
+}
+@media (max-width:520px){ .brand{font-size:10px} .turn-chip{font-size:10.5px} }
+</style>
+</head>
+<body>
+<div id="bg"><div class="moon"></div><div class="sky far" id="skyFar"></div><div class="sky near" id="skyNear"></div><div class="grid"></div><div class="fire"></div><div class="vig"></div></div>
+<div id="flash"></div>
+<div id="errorPanel" class="err" style="display:none"><button class="x" id="errClose" type="button">×</button><div id="errList"></div></div>
+
+<!-- ========== MENU ========== -->
+<div id="screenMenu" class="screen active">
+  <div class="center-wrap"><div style="width:min(560px,94vw)">
+    <div class="title">KING OF <span>TOKYO</span></div>
+    <div class="subtitle">M O N S T E R &nbsp; A P O C A L Y P S E</div>
+    <div class="menu-btns">
+      <button class="btn primary" id="btnLocal" type="button">🎮 เล่นในเครื่อง (PASS &amp; PLAY + BOT)</button>
+      <button class="btn go" id="btnOnlineMenu" type="button">🌐 เล่นออนไลน์ P2P</button>
+      <button class="btn ghost" id="btnRules" type="button">📖 กติกาโดยย่อ</button>
+      <button class="btn ghost" id="btnSettings" type="button">⚙️ ตั้งค่า / เสียง</button>
+    </div>
+    <div class="hint" style="text-align:center;margin-top:16px">2–6 ผู้เล่น · ถึง 20 ⭐ หรือรอดเป็นตัวสุดท้ายเพื่อครองโตเกียว</div>
+  </div></div>
+</div>
+
+<!-- ========== SETUP ========== -->
+<div id="screenSetup" class="screen">
+ <div class="center-wrap"><div class="sheet">
+  <h2>⚙️ ตั้งค่าเกมในเครื่อง</h2>
+  <div class="row" style="justify-content:space-between">
+    <label class="lb">จำนวนผู้เล่น</label>
+    <div class="seg" id="countSeg">
+      <button type="button" data-n="2">2</button><button type="button" data-n="3">3</button><button type="button" data-n="4" class="on">4</button><button type="button" data-n="5">5</button><button type="button" data-n="6">6</button>
+    </div>
+  </div>
+  <div class="seats" id="seatsBox">
+    <div class="seat" data-i="0"><button class="seat-ava" type="button"><span class="e">🦖</span></button><input class="seat-name" type="text" maxlength="12" value="ผู้เล่น 1"><select class="seat-type"><option value="human">มนุษย์</option><option value="easy">BOT ง่าย</option><option value="normal">BOT ปกติ</option><option value="hard">BOT ยาก</option></select></div>
+    <div class="seat" data-i="1"><button class="seat-ava" type="button"><span class="e">🐰</span></button><input class="seat-name" type="text" maxlength="12" value="ผู้เล่น 2"><select class="seat-type"><option value="human">มนุษย์</option><option value="easy">BOT ง่าย</option><option value="normal" selected>BOT ปกติ</option><option value="hard">BOT ยาก</option></select></div>
+    <div class="seat" data-i="2"><button class="seat-ava" type="button"><span class="e">🦍</span></button><input class="seat-name" type="text" maxlength="12" value="ผู้เล่น 3"><select class="seat-type"><option value="human">มนุษย์</option><option value="easy">BOT ง่าย</option><option value="normal" selected>BOT ปกติ</option><option value="hard">BOT ยาก</option></select></div>
+    <div class="seat" data-i="3"><button class="seat-ava" type="button"><span class="e">👽</span></button><input class="seat-name" type="text" maxlength="12" value="ผู้เล่น 4"><select class="seat-type"><option value="human">มนุษย์</option><option value="easy">BOT ง่าย</option><option value="normal">BOT ปกติ</option><option value="hard" selected>BOT ยาก</option></select></div>
+    <div class="seat" data-i="4"><button class="seat-ava" type="button"><span class="e">🐲</span></button><input class="seat-name" type="text" maxlength="12" value="ผู้เล่น 5"><select class="seat-type"><option value="human">มนุษย์</option><option value="easy">BOT ง่าย</option><option value="normal" selected>BOT ปกติ</option><option value="hard">BOT ยาก</option></select></div>
+    <div class="seat" data-i="5"><button class="seat-ava" type="button"><span class="e">🦑</span></button><input class="seat-name" type="text" maxlength="12" value="ผู้เล่น 6"><select class="seat-type"><option value="human">มนุษย์</option><option value="easy">BOT ง่าย</option><option value="normal" selected>BOT ปกติ</option><option value="hard">BOT ยาก</option></select></div>
+  </div>
+  <div class="hint">แตะรูปมอนสเตอร์เพื่อเลือกตัวละคร · 5–6 คนจะเปิด <b>TOKYO BAY</b> อัตโนมัติ</div>
+  <div class="row end" style="margin-top:12px"><button class="btn ghost" type="button" data-goto="menu">◀ กลับ</button><button class="btn primary" id="btnStartLocal" type="button">เริ่มเกม ▶</button></div>
+ </div></div>
+</div>
+
+<!-- ========== ONLINE ========== -->
+<div id="screenOnline" class="screen">
+ <div class="center-wrap"><div class="sheet">
+  <h2>🌐 ONLINE P2P</h2>
+  <div class="row"><label class="lb" style="flex:0 0 74px">ชื่อของคุณ</label><input id="onName" type="text" maxlength="12" style="flex:1" value="MONSTER"></div>
+  <div class="row" style="margin-top:10px"><button class="btn primary" id="btnCreateRoom" type="button">สร้างห้อง</button>
+   <input id="onCode" type="text" maxlength="5" placeholder="รหัสห้อง" style="flex:0 0 120px;text-transform:uppercase;letter-spacing:4px;text-align:center">
+   <button class="btn go" id="btnJoinRoom" type="button">เข้าร่วม</button></div>
+  <div id="netStatus" class="hint" style="margin-top:10px">สถานะ: พร้อม</div>
+  <div id="lobbyBox" style="display:none;margin-top:12px">
+    <div class="code-big" id="roomCodeText">-----</div>
+    <div class="row" style="justify-content:center"><button class="btn sm" id="btnCopyLink" type="button">🔗 คัดลอกลิงก์เชิญ</button><button class="btn sm" id="btnPickMon" type="button">🎭 เปลี่ยนมอนสเตอร์</button></div>
+    <div id="lobbyList" style="margin-top:10px"></div>
+    <div class="row end" id="hostTools" style="margin-top:8px"><button class="btn sm ghost" id="btnAddBot" type="button">+ เพิ่ม BOT</button><button class="btn sm ghost" id="btnDelBot" type="button">- ลบ BOT</button><button class="btn gold" id="btnStartOnline" type="button">เริ่มเกม ▶</button></div>
+    <div class="hint" style="margin-top:6px">Host คือ Game Engine · ถ้าหลุด ให้เข้าห้องเดิมด้วย “ชื่อเดิม” เพื่อกลับเข้าเกม</div>
+  </div>
+  <div class="row end" style="margin-top:12px"><button class="btn ghost" type="button" data-goto="menu">◀ กลับ</button></div>
+ </div></div>
+</div>
+
+<!-- ========== GAME ========== -->
+<div id="screenGame" class="screen">
+  <div class="topbar">
+    <button class="ico" id="btnGameMenu" type="button"><span>☰</span></button>
+    <div class="brand">KING OF <span>TOKYO</span></div>
+    <div class="turn-chip" id="turnLabel">—</div>
+    <button class="ico" id="btnSound" type="button"><span>🔊</span></button>
+  </div>
+  <div class="game-grid">
+    <div class="col col-players" id="playersCol">
+      <div class="pp" id="pp0"><div class="pp-ava"><span class="e">🦖</span></div><div class="pp-main"><div class="pp-name">-</div><div class="pp-stats"><span class="st s-hp">❤<b>10</b></span><span class="st s-vp">⭐<b>0</b></span><span class="st s-en">⚡<b>0</b></span></div><div class="pp-bar"><div class="fill"></div></div><div class="pp-cards"></div></div><div class="pp-badge"></div></div>
+      <div class="pp" id="pp1"><div class="pp-ava"><span class="e">🐰</span></div><div class="pp-main"><div class="pp-name">-</div><div class="pp-stats"><span class="st s-hp">❤<b>10</b></span><span class="st s-vp">⭐<b>0</b></span><span class="st s-en">⚡<b>0</b></span></div><div class="pp-bar"><div class="fill"></div></div><div class="pp-cards"></div></div><div class="pp-badge"></div></div>
+      <div class="pp" id="pp2"><div class="pp-ava"><span class="e">🦍</span></div><div class="pp-main"><div class="pp-name">-</div><div class="pp-stats"><span class="st s-hp">❤<b>10</b></span><span class="st s-vp">⭐<b>0</b></span><span class="st s-en">⚡<b>0</b></span></div><div class="pp-bar"><div class="fill"></div></div><div class="pp-cards"></div></div><div class="pp-badge"></div></div>
+      <div class="pp" id="pp3"><div class="pp-ava"><span class="e">👽</span></div><div class="pp-main"><div class="pp-name">-</div><div class="pp-stats"><span class="st s-hp">❤<b>10</b></span><span class="st s-vp">⭐<b>0</b></span><span class="st s-en">⚡<b>0</b></span></div><div class="pp-bar"><div class="fill"></div></div><div class="pp-cards"></div></div><div class="pp-badge"></div></div>
+      <div class="pp" id="pp4"><div class="pp-ava"><span class="e">🐲</span></div><div class="pp-main"><div class="pp-name">-</div><div class="pp-stats"><span class="st s-hp">❤<b>10</b></span><span class="st s-vp">⭐<b>0</b></span><span class="st s-en">⚡<b>0</b></span></div><div class="pp-bar"><div class="fill"></div></div><div class="pp-cards"></div></div><div class="pp-badge"></div></div>
+      <div class="pp" id="pp5"><div class="pp-ava"><span class="e">🦑</span></div><div class="pp-main"><div class="pp-name">-</div><div class="pp-stats"><span class="st s-hp">❤<b>10</b></span><span class="st s-vp">⭐<b>0</b></span><span class="st s-en">⚡<b>0</b></span></div><div class="pp-bar"><div class="fill"></div></div><div class="pp-cards"></div></div><div class="pp-badge"></div></div>
+    </div>
+    <div class="col col-center">
+      <div class="board" id="board">
+        <div class="tslot" id="slotCity"><div class="t-head">TOKYO CITY</div><div class="t-mon empty">ว่าง</div><div class="t-name">—</div><div class="t-foot">+2⭐ เริ่มเทิร์น</div></div>
+        <div class="tslot" id="slotBay" style="display:none"><div class="t-head">TOKYO BAY</div><div class="t-mon empty">ว่าง</div><div class="t-name">—</div><div class="t-foot">+1⭐ เริ่มเทิร์น</div></div>
+      </div>
+      <div class="tray" id="tray">
+        <button class="die blank" type="button" data-i="0"><span>?</span></button>
+        <button class="die blank" type="button" data-i="1"><span>?</span></button>
+        <button class="die blank" type="button" data-i="2"><span>?</span></button>
+        <button class="die blank" type="button" data-i="3"><span>?</span></button>
+        <button class="die blank" type="button" data-i="4"><span>?</span></button>
+        <button class="die blank" type="button" data-i="5"><span>?</span></button>
+        <button class="die blank" type="button" data-i="6" style="display:none"><span>?</span></button>
+        <button class="die blank" type="button" data-i="7" style="display:none"><span>?</span></button>
+      </div>
+      <div class="controls" id="controls">
+        <button class="btn go" id="btnRoll" type="button">ROLL</button>
+        <button class="btn gold" id="btnDone" type="button">จบการทอย</button>
+        <button class="btn primary" id="btnEnd" type="button">END TURN</button>
+        <button class="btn sm ghost" id="btnHerd" type="button" style="display:none">HERD CULLER</button>
+        <button class="btn sm ghost" id="btnBgd" type="button" style="display:none">REROLL [3]</button>
+        <button class="btn sm ghost" id="btnRapid" type="button" style="display:none">HEAL 2⚡</button>
+      </div>
+      <div class="ticker" id="ticker">พร้อมบุกโตเกียว</div>
+    </div>
+    <div class="col col-shop">
+      <div class="shop-head"><span class="lb">POWER CARDS</span><span class="en" id="shopEnergy">⚡0</span><button class="btn sm" id="btnSweep" type="button">SWEEP 2⚡</button></div>
+      <div class="shopcard" id="sc0" data-i="0"><span class="cc">0</span><span class="tagK">KEEP</span><div class="cn">-</div><div class="cx">-</div></div>
+      <div class="shopcard" id="sc1" data-i="1"><span class="cc">0</span><span class="tagK">KEEP</span><div class="cn">-</div><div class="cx">-</div></div>
+      <div class="shopcard" id="sc2" data-i="2"><span class="cc">0</span><span class="tagK">KEEP</span><div class="cn">-</div><div class="cx">-</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODALS ========== -->
+<div class="modal" id="modalPick"><div class="mbox"><div class="mtitle">เลือกมอนสเตอร์</div><div class="picker" id="pickGrid"></div><div class="row end" style="margin-top:12px"><button class="btn ghost" type="button" data-close="modalPick">ปิด</button></div></div></div>
+<div class="modal" id="modalCard"><div class="mbox"><div class="mtitle" id="mcName">-</div><div class="row"><span class="tagK" id="mcType">KEEP</span><span class="lb" id="mcCost">⚡0</span></div><div class="mtxt" id="mcText" style="margin-top:8px">-</div><div class="row end" style="margin-top:14px"><button class="btn ghost" type="button" data-close="modalCard">ปิด</button><button class="btn go" id="mcBuy" type="button">ซื้อการ์ด</button></div></div></div>
+<div class="modal" id="modalYield"><div class="mbox"><div class="mtitle">⚠️ ถูกโจมตีใน TOKYO!</div><div class="mtxt" id="myText">-</div><div class="row end" style="margin-top:14px"><button class="btn ghost" id="btnStay" type="button">อยู่ต่อใน TOKYO</button><button class="btn primary" id="btnLeave" type="button">ออกจาก TOKYO</button></div><div class="hint" id="myTimer" style="margin-top:6px"></div></div></div>
+<div class="modal" id="modalWin"><div class="mbox" style="text-align:center"><div class="winburst" id="winEmoji">👑</div><div class="mtitle" id="winTitle" style="font-size:22px">-</div><div class="mtxt" id="winText">-</div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn gold" id="btnAgain" type="button">เล่นอีกครั้ง</button><button class="btn ghost" id="btnToMenu" type="button">กลับเมนู</button></div></div></div>
+<div class="modal" id="modalSettings"><div class="mbox"><div class="mtitle">⚙️ ตั้งค่า</div>
+  <div class="row" style="justify-content:space-between;margin:6px 0"><span>เอฟเฟกต์เสียง (SFX)</span><button class="btn sm" id="tglSfx" type="button">เปิด</button></div>
+  <div class="row" style="justify-content:space-between;margin:6px 0"><span>เพลงประกอบ</span><button class="btn sm" id="tglMusic" type="button">เปิด</button></div>
+  <div class="row" style="justify-content:space-between;margin:6px 0"><span>ความเร็ว BOT</span><select id="selSpeed"><option value="1300">ช้า</option><option value="850" selected>ปกติ</option><option value="420">เร็ว</option></select></div>
+  <div class="row end" style="margin-top:12px"><button class="btn ghost" id="btnQuit" type="button">ออกจากเกม</button><button class="btn go" type="button" data-close="modalSettings">ปิด</button></div></div></div>
+<div class="modal" id="modalRules"><div class="mbox"><div class="mtitle">📖 กติกาโดยย่อ (ฉบับต้นฉบับ)</div><div class="mtxt" style="font-size:14px">
+• เริ่ม 10 ❤ / 0 ⭐ — ชนะเมื่อถึง <b>20 ⭐</b> หรือเป็นตัวสุดท้ายที่รอด<br>
+• ทอยเต๋า 6 ลูก ได้สูงสุด 3 ครั้ง เลือกเก็บ/ทอยใหม่ได้<br>
+• เลข 1/2/3 ครบ 3 ลูก = แต้มเท่าเลขนั้น ลูกเกินเพิ่มลูกละ 1 ⭐<br>
+• ❤ = ฟื้น 1 (ห้ามฟื้นขณะอยู่ใน Tokyo) · ⚡ = พลังงานซื้อการ์ด<br>
+• 👊 นอก Tokyo → ตีผู้ที่อยู่ใน Tokyo · อยู่ใน Tokyo → ตีทุกคนที่อยู่นอก<br>
+• Tokyo ว่าง + ทอยได้ 👊 = ต้องเข้า Tokyo ได้ 1 ⭐ · เริ่มเทิร์นใน City +2 ⭐ / Bay +1 ⭐<br>
+• ถูกตีขณะอยู่ใน Tokyo เลือก “ออก” ได้ ผู้โจมตีจะเข้าแทน<br>
+• 5–6 คนใช้ Tokyo Bay ด้วย (เหลือ 4 คนเมื่อไหร่ Bay ถูกปิด)<br>
+• ซื้อการ์ดด้วย ⚡ · SWEEP 2⚡ เพื่อเปลี่ยนการ์ดทั้ง 3 ใบ · HP ไม่เกิน 10 เว้นแต่การ์ดระบุ
+</div><div class="row end" style="margin-top:12px"><button class="btn go" type="button" data-close="modalRules">เข้าใจแล้ว</button></div></div></div>
+<div id="toast"></div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" onerror="window.__PEER_FAIL=1"></script>
+<script>
+/* =========================================================
+   KING OF TOKYO — MONSTER APOCALYPSE (single file)
+   ========================================================= */
+(function(){
+'use strict';
+/* ---------- error panel ---------- */
+function ERR(step,e){
+  try{
+    var p=document.getElementById('errorPanel'),l=document.getElementById('errList');
+    if(!p||!l)return;
+    p.style.display='block';
+    var d=document.createElement('div');
+    d.innerHTML='';
+    var b=document.createElement('b'); b.textContent='['+step+'] ';
+    var s=document.createElement('span'); s.textContent=(e&&e.message)?e.message:String(e);
+    d.appendChild(b); d.appendChild(s); l.appendChild(d);
+    if(l.childNodes.length>14) l.removeChild(l.firstChild);
+  }catch(x){}
+  try{console.error(step,e);}catch(x){}
+}
+window.addEventListener('error',function(ev){ERR('runtime',ev.error||ev.message);});
+window.addEventListener('unhandledrejection',function(ev){ERR('promise',ev.reason);});
+function guard(step,fn){ return function(){ try{ return fn.apply(this,arguments);}catch(e){ ERR(step,e);} }; }
+
+/* ---------- utils ---------- */
+function $(id){return document.getElementById(id);}
+function mk(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+function rnd(n){return Math.floor(Math.random()*n);}
+function clr(n){while(n&&n.firstChild)n.removeChild(n.firstChild);}
+function pick(a){return a[rnd(a.length)];}
+
+/* ---------- data ---------- */
+var MONSTERS=[
+ {id:'gigazaur',name:'GIGAZAUR',emoji:'🦖',color:'#49f2a1'},
+ {id:'cyberbunny',name:'CYBER BUNNY',emoji:'🐰',color:'#ff7ad9'},
+ {id:'theking',name:'THE KING',emoji:'🦍',color:'#ffb35c'},
+ {id:'alienoid',name:'ALIENOID',emoji:'👽',color:'#b07dff'},
+ {id:'mekadragon',name:'MEKA DRAGON',emoji:'🐲',color:'#ff6a6a'},
+ {id:'kraken',name:'KRAKEN',emoji:'🦑',color:'#4fd2ff'}
+];
+var MON={}; MONSTERS.forEach(function(m){MON[m.id]=m;});
+
+var CARDS=[
+ {id:'acid_attack',n:'ACID ATTACK',c:6,t:'keep',v:7,x:'ทำดาเมจเพิ่ม 1 เสมอ แม้ไม่ได้ทอย 👊'},
+ {id:'alien_metabolism',n:'ALIEN METABOLISM',c:3,t:'keep',v:5,x:'ซื้อการ์ดถูกลง 1 ⚡'},
+ {id:'alpha_monster',n:'ALPHA MONSTER',c:5,t:'keep',v:6,x:'ได้ 1 ⭐ เมื่อคุณโจมตีโดน'},
+ {id:'armor_plating',n:'ARMOR PLATING',c:4,t:'keep',v:6,x:'ไม่รับดาเมจที่เท่ากับ 1'},
+ {id:'background_dweller',n:'BACKGROUND DWELLER',c:4,t:'keep',v:5,x:'ทอยลูกเต๋าเลข [3] ใหม่ได้เสมอ (ปุ่มพิเศษ)'},
+ {id:'burrowing',n:'BURROWING',c:5,t:'keep',v:6,x:'โจมตีจากใน Tokyo +1 ดาเมจ / ออกจาก Tokyo ทำ 1 ดาเมจใส่ผู้โจมตี'},
+ {id:'camouflage',n:'CAMOUFLAGE',c:3,t:'keep',v:5,x:'รับดาเมจ: ทอยเต๋า 1 ลูกต่อดาเมจ ได้ ❤ = กันดาเมจนั้น'},
+ {id:'complete_destruction',n:'COMPLETE DESTRUCTION',c:3,t:'keep',v:4,x:'ถ้าทอยได้ 1,2,3,❤,⚡,👊 ครบในเทิร์นเดียว ได้ 9 ⭐'},
+ {id:'dedicated_news_team',n:'DEDICATED NEWS TEAM',c:3,t:'keep',v:6,x:'ได้ 1 ⭐ ทุกครั้งที่ซื้อการ์ด'},
+ {id:'eater_of_the_dead',n:'EATER OF THE DEAD',c:4,t:'keep',v:4,x:'ได้ 3 ⭐ ทุกครั้งที่มีมอนสเตอร์ถูกกำจัด'},
+ {id:'energy_hoarder',n:'ENERGY HOARDER',c:3,t:'keep',v:4,x:'จบเทิร์น ได้ 1 ⭐ ต่อทุก 6 ⚡ ที่ถืออยู่'},
+ {id:'even_bigger',n:'EVEN BIGGER',c:4,t:'keep',v:7,x:'HP สูงสุดเป็น 12 และฟื้น 2 ❤ ทันที'},
+ {id:'extra_head',n:'EXTRA HEAD',c:7,t:'keep',v:9,x:'ได้ลูกเต๋าเพิ่ม 1 ลูก (รวม 7 ลูก)'},
+ {id:'fire_breathing',n:'FIRE BREATHING',c:4,t:'keep',v:6,x:'เมื่อคุณทำดาเมจ ผู้เล่นที่นั่งติดคุณรับเพิ่ม 1 ดาเมจ'},
+ {id:'friend_of_children',n:'FRIEND OF CHILDREN',c:3,t:'keep',v:5,x:'เมื่อได้รับ ⚡ รับเพิ่มอีก 1'},
+ {id:'giant_brain',n:'GIANT BRAIN',c:5,t:'keep',v:8,x:'ทอยใหม่ได้เพิ่ม 1 ครั้งต่อเทิร์น'},
+ {id:'gourmet',n:'GOURMET',c:4,t:'keep',v:4,x:'เมื่อทำแต้มจาก [1][1][1] ได้ ⭐ เพิ่ม 2'},
+ {id:'herbivore',n:'HERBIVORE',c:5,t:'keep',v:4,x:'จบเทิร์น ได้ 1 ⭐ ถ้าเทิร์นนี้ไม่ได้ทำดาเมจใคร'},
+ {id:'herd_culler',n:'HERD CULLER',c:3,t:'keep',v:5,x:'เปลี่ยนลูกเต๋า 1 ลูกเป็น [1] ได้ 1 ครั้ง/เทิร์น (ปุ่มพิเศษ)'},
+ {id:'jets',n:'JETS',c:5,t:'keep',v:6,x:'เมื่อเลือกออกจาก Tokyo ไม่รับดาเมจจากการโจมตีครั้งนั้น'},
+ {id:'nova_breath',n:'NOVA BREATH',c:7,t:'keep',v:8,x:'การโจมตีของคุณทำดาเมจใส่มอนสเตอร์อื่นทุกตัว'},
+ {id:'poison_quills',n:'POISON QUILLS',c:3,t:'keep',v:5,x:'เมื่อทำแต้มจาก [2][2][2] ทำดาเมจเพิ่ม 2'},
+ {id:'rapid_healing',n:'RAPID HEALING',c:3,t:'keep',v:6,x:'จ่าย 2 ⚡ เพื่อฟื้น 1 ❤ (ปุ่มพิเศษในเทิร์นคุณ)'},
+ {id:'regeneration',n:'REGENERATION',c:4,t:'keep',v:6,x:'เมื่อฟื้นพลัง ฟื้นเพิ่มอีก 1 ❤'},
+ {id:'rooting_underdog',n:'ROOTING FOR THE UNDERDOG',c:3,t:'keep',v:4,x:'จบเทิร์น ได้ 1 ⭐ ถ้าคุณมี ❤ น้อยที่สุด'},
+ {id:'solar_powered',n:'SOLAR POWERED',c:5,t:'keep',v:4,x:'จบเทิร์น ถ้าไม่มี ⚡ เลย รับ 1 ⚡'},
+ {id:'spiked_tail',n:'SPIKED TAIL',c:5,t:'keep',v:8,x:'เมื่อโจมตี ทำดาเมจเพิ่ม 1'},
+ {id:'urbavore',n:'URBAVORE',c:4,t:'keep',v:7,x:'เริ่มเทิร์นใน Tokyo ได้ ⭐ เพิ่ม 1 และโจมตีจาก Tokyo +1 ดาเมจ'},
+ {id:'stronger',n:"WE'RE ONLY MAKING IT STRONGER",c:3,t:'keep',v:5,x:'ทุกครั้งที่เสีย 2 ❤ ขึ้นไป รับ 1 ⚡'},
+ {id:'wings',n:'WINGS',c:6,t:'keep',v:6,x:'จ่าย 2 ⚡ เพื่อกัน 2 ดาเมจ (ใช้อัตโนมัติเมื่อจำเป็น)'},
+ {id:'apartment_building',n:'APARTMENT BUILDING',c:5,t:'discard',v:6,x:'+3 ⭐'},
+ {id:'commuter_train',n:'COMMUTER TRAIN',c:4,t:'discard',v:5,x:'+2 ⭐'},
+ {id:'corner_store',n:'CORNER STORE',c:3,t:'discard',v:4,x:'+1 ⭐'},
+ {id:'death_from_above',n:'DEATH FROM ABOVE',c:5,t:'discard',v:7,x:'+2 ⭐ และเข้ายึดครอง Tokyo ทันที'},
+ {id:'energize',n:'ENERGIZE',c:8,t:'discard',v:5,x:'+9 ⚡'},
+ {id:'evacuation_orders',n:'EVACUATION ORDERS',c:7,t:'discard',v:7,x:'มอนสเตอร์อื่นทุกตัวเสีย 5 ⭐'},
+ {id:'fire_blast',n:'FIRE BLAST',c:3,t:'discard',v:6,x:'ทำ 2 ดาเมจใส่มอนสเตอร์อื่นทุกตัว'},
+ {id:'frenzy',n:'FRENZY',c:7,t:'discard',v:7,x:'เล่นอีก 1 เทิร์นทันทีหลังจบเทิร์นนี้'},
+ {id:'gas_refinery',n:'GAS REFINERY',c:6,t:'discard',v:7,x:'+2 ⭐ และทำ 3 ดาเมจใส่มอนสเตอร์อื่นทุกตัว'},
+ {id:'heal',n:'HEAL',c:3,t:'discard',v:5,x:'ฟื้น 2 ❤'},
+ {id:'high_altitude_bombing',n:'HIGH ALTITUDE BOMBING',c:4,t:'discard',v:4,x:'มอนสเตอร์ทุกตัวรวมถึงคุณ รับ 3 ดาเมจ'},
+ {id:'jet_fighters',n:'JET FIGHTERS',c:5,t:'discard',v:6,x:'+5 ⭐ และรับ 4 ดาเมจ'},
+ {id:'national_guard',n:'NATIONAL GUARD',c:3,t:'discard',v:5,x:'+2 ⭐ และรับ 2 ดาเมจ'},
+ {id:'nuclear_power_plant',n:'NUCLEAR POWER PLANT',c:6,t:'discard',v:7,x:'+2 ⭐ และฟื้น 3 ❤'},
+ {id:'skyscraper',n:'SKYSCRAPER',c:6,t:'discard',v:7,x:'+4 ⭐'},
+ {id:'tanks',n:'TANKS',c:4,t:'discard',v:6,x:'+4 ⭐ และรับ 3 ดาเมจ'}
+];
+var CBY={}; CARDS.forEach(function(c){CBY[c.id]=c;});
+var FACES=['1','2','3','H','E','C'];
+var GLYPH={'1':'1','2':'2','3':'3','H':'❤','E':'⚡','C':'👊'};
+
+/* ---------- app state ---------- */
+var APP={mode:'local',isHost:true,myPid:null,botSpeed:850};
+var G=null, LAST_SEATS=null, botTimer=null, yieldTimer=null, yieldCount=0;
+var UI={selectMode:null,cardIdx:-1,pickSeat:-1};
+
+/* ---------- sound ---------- */
+var SND={ctx:null,on:true,music:true,g:null,mt:null,step:0,
+ init:function(){ if(this.ctx)return; var AC=window.AudioContext||window.webkitAudioContext; if(!AC)return;
+   try{ this.ctx=new AC(); this.g=this.ctx.createGain(); this.g.gain.value=.22; this.g.connect(this.ctx.destination);}catch(e){ERR('audio-init',e);} },
+ unlock:function(){ this.init(); if(this.ctx&&this.ctx.state==='suspended'){ try{this.ctx.resume();}catch(e){} } if(this.music) this.startMusic(); },
+ tone:function(f,d,type,vol,dt){ if(!this.on||!this.ctx)return; try{
+   var t=this.ctx.currentTime+(dt||0), o=this.ctx.createOscillator(), g=this.ctx.createGain();
+   o.type=type||'square'; o.frequency.setValueAtTime(f,t);
+   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol==null?.25:vol,t+.012);
+   g.gain.exponentialRampToValueAtTime(.0008,t+d); o.connect(g); g.connect(this.g); o.start(t); o.stop(t+d+.03);
+ }catch(e){} },
+ play:function(k){ if(!this.on)return; this.init(); if(!this.ctx)return;
+  if(k==='roll'){for(var i=0;i<5;i++)this.tone(260+rnd(300),.06,'triangle',.16,i*.05);}
+  else if(k==='keep')this.tone(880,.07,'square',.14);
+  else if(k==='hit'){this.tone(120,.22,'sawtooth',.3);this.tone(70,.3,'square',.25,.04);}
+  else if(k==='heal'){this.tone(520,.1,'sine',.2);this.tone(760,.14,'sine',.18,.09);}
+  else if(k==='energy')this.tone(1100,.09,'square',.15);
+  else if(k==='vp'){this.tone(660,.1,'triangle',.2);this.tone(990,.14,'triangle',.18,.08);}
+  else if(k==='buy'){this.tone(440,.09,'square',.2);this.tone(660,.1,'square',.2,.08);this.tone(880,.16,'square',.2,.16);}
+  else if(k==='enter'){this.tone(180,.2,'sawtooth',.25);this.tone(300,.25,'sawtooth',.2,.1);}
+  else if(k==='dead'){this.tone(200,.4,'sawtooth',.3);this.tone(90,.6,'square',.25,.15);}
+  else if(k==='win'){[523,659,784,1046].forEach(function(f,i){SND.tone(f,.28,'triangle',.22,i*.13);});}
+ },
+ startMusic:function(){ if(!this.music||this.mt||!this.ctx)return; var self=this;
+  var bass=[55,55,73.4,65.4], arp=[220,277,330,415];
+  this.mt=setInterval(function(){ if(!self.music||!self.on||!self.ctx)return;
+    var s=self.step++; self.tone(bass[(s>>2)%4],.42,'triangle',.11);
+    if(s%2===0) self.tone(arp[s%4]*2,.14,'square',.035);
+  },430); },
+ stopMusic:function(){ if(this.mt){clearInterval(this.mt);this.mt=null;} }
+};
+
+/* ---------- toast / fx ---------- */
+function toast(msg){ try{ var t=$('toast'); var d=mk('div','tst',msg); t.appendChild(d);
+  setTimeout(function(){ if(d.parentNode) d.parentNode.removeChild(d); },1900);
+  while(t.childNodes.length>3) t.removeChild(t.firstChild);}catch(e){} }
+function flash(){ var f=$('flash'); if(!f)return; f.classList.remove('on'); void f.offsetWidth; f.classList.add('on'); }
+function fxClass(el,cls,ms){ if(!el)return; el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); setTimeout(function(){el.classList.remove(cls);},ms||600); }
+
+/* ---------- log ---------- */
+function log(s){ if(!G)return; G.log.push(s); if(G.log.length>40)G.log.shift(); var t=$('ticker'); if(t)t.textContent=s; }
+
+/* ---------- rules helpers ---------- */
+function cur(){ return G&&G.players?G.players[G.turn]:null; }
+function byId(id){ if(!G)return null; for(var i=0;i<G.players.length;i++) if(G.players[i].id===id) return G.players[i]; return null; }
+function has(p,id){ return !!(p&&p.cards&&p.cards.indexOf(id)>=0); }
+function aliveList(){ return G.players.filter(function(p){return p.alive;}); }
+function diceCount(p){ return 6+(has(p,'extra_head')?1:0); }
+function totalRolls(p){ return 3+(has(p,'giant_brain')?1:0); }
+function cardCost(p,c){ return Math.max(0,c.c-(has(p,'alien_metabolism')?1:0)); }
+function neighbors(p){ var n=[],L=G.players.length; if(L<2)return n;
+  var a=G.players[(p.seat+1)%L], b=G.players[(p.seat-1+L)%L];
+  if(a&&a.id!==p.id&&a.alive)n.push(a); if(b&&b.id!==p.id&&b.alive&&n.indexOf(b)<0)n.push(b); return n; }
+function inTokyoList(){ return G.players.filter(function(p){return p.alive&&p.inTokyo;}); }
+function outTokyoList(){ return G.players.filter(function(p){return p.alive&&!p.inTokyo;}); }
+function emptySlot(){ var c=null,b=null; G.players.forEach(function(p){ if(p.alive&&p.inTokyo==='city')c=p; if(p.alive&&p.inTokyo==='bay')b=p; });
+  if(!c) return 'city'; if(G.bayActive&&!b) return 'bay'; return null; }
+function addVP(p,n){ if(!p)return; p.vp=Math.max(0,p.vp+n); if(n>0)SND.play('vp'); }
+function gainEnergy(p,n){ if(n<=0)return; if(has(p,'friend_of_children'))n+=1; p.energy+=n; SND.play('energy'); }
+function healP(p,n){ if(!p||!p.alive||n<=0)return 0; if(has(p,'regeneration'))n+=1;
+  var b=p.hp; p.hp=Math.min(p.maxHp,p.hp+n); if(p.hp>b)SND.play('heal'); return p.hp-b; }
+function panelOf(p){ return $('pp'+p.seat); }
+
+function dealDamage(t,amount,src){
+  if(!t||!t.alive||amount<=0)return 0;
+  var d=amount;
+  if(has(t,'armor_plating')&&d===1){ log(t.name+' ⛨ ARMOR PLATING กันดาเมจ'); return 0; }
+  if(has(t,'camouflage')){ var blocked=0,i; for(i=0;i<d;i++){ if(FACES[rnd(6)]==='H')blocked++; }
+    if(blocked){ log(t.name+' 🫥 CAMOUFLAGE กัน '+blocked+' ดาเมจ'); d-=blocked; } }
+  if(has(t,'wings')&&t.energy>=2&&d>0&&(t.hp-d<=2||d>=3)){
+    var uses=Math.min(Math.floor(t.energy/2),Math.ceil(d/2));
+    if(uses>0){ t.energy-=uses*2; d=Math.max(0,d-uses*2); log(t.name+' 🪽 WINGS จ่าย '+(uses*2)+'⚡ กันดาเมจ'); } }
+  if(d<=0)return 0;
+  t.hp-=d;
+  if(has(t,'stronger')&&d>=2){ gainEnergy(t,1); log(t.name+' รับพลังจากความเจ็บปวด +1⚡'); }
+  SND.play('hit'); flash(); fxClass(panelOf(t),'hit',450);
+  if(t.hp<=0){ t.hp=0; eliminate(t); }
+  return d;
+}
+function eliminate(t){
+  t.alive=false; t.inTokyo=null; t.hp=0;
+  log('💀 '+t.name+' ถูกกำจัดออกจากเกม!'); SND.play('dead');
+  G.players.forEach(function(q){ if(q.alive&&q.id!==t.id&&has(q,'eater_of_the_dead')){ addVP(q,3); log(q.name+' EATER OF THE DEAD +3⭐'); } });
+}
+function enterTokyo(p,slot){
+  if(!p||!p.alive||!slot)return;
+  p.inTokyo=slot; addVP(p,1);
+  log('🏙️ '+p.name+' เข้ายึด '+(slot==='city'?'TOKYO CITY':'TOKYO BAY')+' +1⭐');
+  SND.play('enter'); fxClass($(slot==='city'?'slotCity':'slotBay'),'enter',600);
+}
+
+/* ---------- deck ---------- */
+function buildDeck(){ G.deck=[]; CARDS.forEach(function(c){ G.deck.push(c.id); G.deck.push(c.id); });
+  for(var i=G.deck.length-1;i>0;i--){ var j=rnd(i+1),t=G.deck[i];G.deck[i]=G.deck[j];G.deck[j]=t; } }
+function drawCard(){ if(!G.deck.length){ G.deck=G.discard.slice(); G.discard=[];
+    for(var i=G.deck.length-1;i>0;i--){var j=rnd(i+1),t=G.deck[i];G.deck[i]=G.deck[j];G.deck[j]=t;} }
+  var id=G.deck.pop(); return id?CBY[id]:null; }
+function refillShop(){ for(var i=0;i<3;i++){ if(!G.shop[i]) G.shop[i]=drawCard(); } }
+
+/* ---------- game setup ---------- */
+function newGame(seats){
+  G={players:seats.map(function(s,i){ return {
+      id:s.id||('p'+i),name:(s.name||('P'+(i+1))).slice(0,12),mon:s.monId,hp:10,maxHp:10,vp:0,energy:0,
+      inTokyo:null,alive:true,cards:[],isBot:!!s.isBot,bot:s.bot||'normal',human:!!s.human,connected:s.connected!==false,seat:i};}),
+    turn:0,phase:'roll',dice:[],rollsLeft:3,rolled:false,shop:[null,null,null],deck:[],discard:[],
+    log:[],over:false,winner:null,bayActive:seats.length>=5,round:1,pending:null,
+    turnFlags:{},extraTurn:false};
+  for(var i=0;i<8;i++)G.dice.push({f:null,k:false});
+  buildDeck(); refillShop();
+  log('🔥 TOKYO ถูกบุก! เกมเริ่มแล้ว');
+  LAST_SEATS=seats;
+  startTurn(true);
+}
+function startTurn(first){
+  if(!G||G.over)return;
+  var p=cur(); if(!p)return;
+  if(!p.alive){ nextPlayer(); return; }
+  if(aliveList().length<=4&&G.bayActive){
+    G.players.forEach(function(q){ if(q.inTokyo==='bay'){ q.inTokyo=null; log('🌊 TOKYO BAY ปิดตัว — '+q.name+' ออกจากอ่าว'); } });
+    G.bayActive=false;
+  }
+  G.turnFlags={herd:false,buys:0,sweeps:0,damaged:false,bgd:0};
+  G.rollsLeft=totalRolls(p); G.rolled=false; G.phase='roll';
+  for(var i=0;i<8;i++){ G.dice[i].f=null; G.dice[i].k=false; }
+  if(!first&&p.inTokyo){
+    var g=(p.inTokyo==='city'?2:1)+(has(p,'urbavore')?1:0);
+    addVP(p,g); log('⭐ '+p.name+' เริ่มเทิร์นใน '+(p.inTokyo==='city'?'CITY':'BAY')+' +'+g+'⭐');
+  }
+  log('▶ เทิร์นของ '+p.name);
+  if(checkWin())return;
+  sync();
+  if(isAuto(p)) scheduleBot(600);
+}
+function nextPlayer(){
+  if(G.over)return;
+  if(G.extraTurn){ G.extraTurn=false; log('⚡ FRENZY! '+cur().name+' เล่นต่ออีกเทิร์น'); startTurn(false); return; }
+  var n=0;
+  do{ G.turn=(G.turn+1)%G.players.length; n++; if(G.turn===0)G.round++; }while(!G.players[G.turn].alive&&n<20);
+  startTurn(false);
+}
+function checkWin(){
+  if(!G||G.over)return false;
+  var al=aliveList();
+  if(al.length<=1){ G.over=true; G.winner=al.length?al[0].id:null; }
+  else { for(var i=0;i<G.players.length;i++){ if(G.players[i].alive&&G.players[i].vp>=20){ G.over=true; G.winner=G.players[i].id; break; } } }
+  if(G.over){ log('🏆 จบเกม!'); SND.play('win'); sync(); showWin(); if(botTimer){clearTimeout(botTimer);botTimer=null;} return true; }
+  return false;
+}
+function isAuto(p){ if(!p)return false; if(p.isBot)return true;
+  if(APP.mode==='online'&&!p.connected)return true; return false; }
+function controlledByMe(p){ if(!p||!p.alive)return false;
+  if(APP.mode==='local') return !p.isBot;
+  return p.id===APP.myPid; }
+
+/* ---------- actions (host authoritative) ---------- */
+function act(a){
+  if(APP.isHost){ var actor = (APP.mode==='local') ? (a.k==='yield'&&G.pending?G.pending.asking:(cur()?cur().id:null)) : APP.myPid; hostApply(a,actor); }
+  else NET.send({t:'act',a:a});
+}
+function hostApply(a,actorId){
+  try{
+    if(!G||G.over||!a)return;
+    if(a.k==='yield'){ answerYield(actorId,!!a.v); return; }
+    var p=cur(); if(!p)return;
+    if(actorId!==p.id) return;
+    switch(a.k){
+      case 'roll': doRoll(); break;
+      case 'keep': toggleKeep(a.i); break;
+      case 'done': doResolve(); break;
+      case 'buy': doBuy(a.i); break;
+      case 'sweep': doSweep(); break;
+      case 'end': doEndTurn(); break;
+      case 'herd': doHerd(a.i); break;
+      case 'bgd': doBgd(); break;
+      case 'rapid': doRapid(); break;
+    }
+  }catch(e){ ERR('action:'+(a&&a.k),e); }
+}
+function doRoll(){
+  if(G.phase!=='roll'||G.rollsLeft<=0)return;
+  var p=cur(),n=diceCount(p),i;
+  for(i=0;i<8;i++){ var d=G.dice[i];
+    if(i>=n){ d.f=null; d.k=false; continue; }
+    if(!G.rolled||!d.k){ d.f=FACES[rnd(6)]; d.roll=true; } else d.roll=false; }
+  G.rolled=true; G.rollsLeft--;
+  SND.play('roll'); sync();
+}
+function toggleKeep(i){
+  if(G.phase!=='roll'||!G.rolled)return;
+  var p=cur(); if(i>=diceCount(p))return;
+  if(UI.selectMode==='herd'){ return; }
+  if(G.rollsLeft<=0)return;
+  G.dice[i].k=!G.dice[i].k; SND.play('keep'); sync();
+}
+function doHerd(i){
+  if(G.phase!=='roll'||!G.rolled||G.turnFlags.herd)return;
+  var p=cur(); if(!has(p,'herd_culler')||i>=diceCount(p))return;
+  G.dice[i].f='1'; G.turnFlags.herd=true; log('🐑 HERD CULLER เปลี่ยนเต๋าเป็น [1]'); sync();
+}
+function doBgd(){
+  if(G.phase!=='roll'||!G.rolled)return;
+  var p=cur(); if(!has(p,'background_dweller'))return;
+  var n=diceCount(p),any=false;
+  for(var i=0;i<n;i++){ if(G.dice[i].f==='3'){ G.dice[i].f=FACES[rnd(6)]; G.dice[i].roll=true; any=true; } }
+  if(any){ G.turnFlags.bgd++; SND.play('roll'); log('🌫️ BACKGROUND DWELLER ทอยเลข [3] ใหม่'); sync(); }
+}
+function doRapid(){
+  var p=cur(); if(!has(p,'rapid_healing')||p.energy<2||p.hp>=p.maxHp)return;
+  p.energy-=2; healP(p,1); log('💉 RAPID HEALING +1❤'); sync();
+}
+function doResolve(){
+  if(G.phase!=='roll'||!G.rolled)return;
+  G.phase='resolve'; UI.selectMode=null;
+  var p=cur(),n=diceCount(p),i,faces=[];
+  for(i=0;i<n;i++) if(G.dice[i].f) faces.push(G.dice[i].f);
+  function cnt(f){ var c=0; faces.forEach(function(x){ if(x===f)c++; }); return c; }
+  /* numbers */
+  [1,2,3].forEach(function(v){
+    var c=cnt(String(v));
+    if(c>=3){ var pts=v+(c-3); if(v===1&&has(p,'gourmet'))pts+=2;
+      addVP(p,pts); log('⭐ '+p.name+' ได้ '+pts+'⭐ จาก ['+v+']x'+c); } });
+  /* complete destruction */
+  if(has(p,'complete_destruction')&&cnt('1')&&cnt('2')&&cnt('3')&&cnt('H')&&cnt('E')&&cnt('C')){
+    addVP(p,9); log('💥 COMPLETE DESTRUCTION +9⭐'); }
+  /* energy */
+  var e=cnt('E'); if(e>0){ gainEnergy(p,e); log('⚡ '+p.name+' ได้ '+e+'⚡'); }
+  /* heal */
+  var h=cnt('H');
+  if(h>0){ if(p.inTokyo) log('🚫 '+p.name+' อยู่ใน TOKYO ฟื้นพลังไม่ได้');
+    else { var got=healP(p,h); if(got>0) log('❤ '+p.name+' ฟื้น '+got+'❤'); } }
+  /* attack */
+  var claws=cnt('C');
+  var dmg=claws+(has(p,'acid_attack')?1:0);
+  if(dmg>0){
+    if(has(p,'spiked_tail'))dmg+=1;
+    if(p.inTokyo&&has(p,'urbavore'))dmg+=1;
+    if(p.inTokyo&&has(p,'burrowing'))dmg+=1;
+    if(cnt('2')>=3&&has(p,'poison_quills'))dmg+=2;
+  }
+  G.pending={type:'yield',attacker:p.id,queue:[],asking:null,claws:claws,taken:{}};
+  if(dmg>0) performAttack(p,dmg,G.pending);
+  else { log('😐 '+p.name+' ไม่ได้โจมตี'); finishAttack(); }
+}
+function performAttack(p,dmg,pd){
+  var targets;
+  if(has(p,'nova_breath')) targets=G.players.filter(function(q){return q.alive&&q.id!==p.id;});
+  else if(p.inTokyo) targets=outTokyoList();
+  else targets=inTokyoList();
+  var map={},i;
+  targets.forEach(function(t){ map[t.id]=dmg; });
+  if(has(p,'fire_breathing')) neighbors(p).forEach(function(t){ map[t.id]=(map[t.id]||0)+1; });
+  var dealt=0,ids=Object.keys(map);
+  if(!ids.length){ log('👊 '+p.name+' โจมตี '+dmg+' แต่ไม่มีเป้าหมาย'); }
+  ids.forEach(function(id){ var t=byId(id); var d=dealDamage(t,map[id],p);
+    pd.taken[id]=(pd.taken[id]||0)+d; if(d>0){ dealt+=d; log('👊 '+p.name+' → '+t.name+' -'+d+'❤'); } });
+  if(dealt>0){ G.turnFlags.damaged=true;
+    if(has(p,'alpha_monster')){ addVP(p,1); log('🐺 ALPHA MONSTER +1⭐'); } }
+  if(!p.inTokyo){ inTokyoList().forEach(function(t){ if(pd.taken[t.id]>0) pd.queue.push(t.id); }); }
+  if(checkWin())return;
+  processYield();
+}
+function processYield(){
+  if(!G||G.over)return;
+  var pd=G.pending; if(!pd){ afterResolve(); return; }
+  if(yieldTimer){clearTimeout(yieldTimer);yieldTimer=null;}
+  while(pd.queue.length){
+    var id=pd.queue.shift(); var t=byId(id);
+    if(!t||!t.alive||!t.inTokyo)continue;
+    pd.asking=id; G.phase='yield'; sync();
+    (function(target){
+      if(isAuto(target)){ yieldTimer=setTimeout(guard('bot-yield',function(){ answerYield(target.id,botYield(target,pd)); }),Math.max(400,APP.botSpeed)); }
+      else if(APP.isHost&&APP.mode==='online'&&target.id!==APP.myPid){ yieldTimer=setTimeout(guard('yield-timeout',function(){ answerYield(target.id,false); }),20000); }
+      else if(APP.mode==='local'&&target.isBot){ yieldTimer=setTimeout(guard('by2',function(){answerYield(target.id,botYield(target,pd));}),600); }
+    })(t);
+    return;
+  }
+  pd.asking=null; finishAttack();
+}
+function answerYield(actorId,leave){
+  var pd=G.pending; if(!pd||!pd.asking)return;
+  if(actorId&&actorId!==pd.asking)return;
+  if(yieldTimer){clearTimeout(yieldTimer);yieldTimer=null;}
+  var t=byId(pd.asking), atk=byId(pd.attacker);
+  closeModal('modalYield');
+  if(t&&t.alive&&leave){
+    if(has(t,'jets')){ var back=pd.taken[t.id]||0; if(back>0){ t.hp=Math.min(t.maxHp,t.hp+back); log('🪽 JETS! '+t.name+' ไม่รับดาเมจจากการโจมตีนี้'); } }
+    t.inTokyo=null; log('🏃 '+t.name+' ออกจาก TOKYO');
+    if(has(t,'burrowing')&&atk&&atk.alive){ dealDamage(atk,1,t); log('🕳️ BURROWING ทำ 1 ดาเมจใส่ '+atk.name); }
+  } else if(t){ log('🛡️ '+t.name+' เลือกอยู่ต่อใน TOKYO'); }
+  pd.asking=null;
+  if(checkWin())return;
+  processYield();
+}
+function finishAttack(){
+  var pd=G.pending||{}, p=byId(pd.attacker)||cur();
+  if(p&&p.alive&&!p.inTokyo&&pd.claws>0){ var s=emptySlot(); if(s) enterTokyo(p,s); }
+  G.pending=null;
+  if(checkWin())return;
+  afterResolve();
+}
+function afterResolve(){
+  if(!G||G.over)return;
+  G.phase='buy'; sync();
+  var p=cur(); if(isAuto(p)) scheduleBot(500);
+}
+function doBuy(i){
+  if(G.phase!=='buy')return;
+  var p=cur(),c=G.shop[i]; if(!c)return;
+  var cost=cardCost(p,c);
+  if(p.energy<cost){ toast('⚡ พลังงานไม่พอ'); return; }
+  p.energy-=cost;
+  if(has(p,'dedicated_news_team')){ addVP(p,1); log('📰 DEDICATED NEWS TEAM +1⭐'); }
+  log('🃏 '+p.name+' ซื้อ '+c.n+' (-'+cost+'⚡)');
+  SND.play('buy'); fxClass($('sc'+i),'bought',500);
+  if(c.t==='keep'){ p.cards.push(c.id); onGainKeep(p,c); }
+  else { G.discard.push(c.id); resolveDiscard(p,c); }
+  G.shop[i]=drawCard(); G.turnFlags.buys++;
+  if(checkWin())return;
+  sync();
+}
+function onGainKeep(p,c){
+  if(c.id==='even_bigger'){ p.maxHp=12; healP(p,2); log('🦣 EVEN BIGGER! HP สูงสุด 12'); }
+}
+function resolveDiscard(p,c){
+  var others=G.players.filter(function(q){return q.alive&&q.id!==p.id;});
+  switch(c.id){
+    case 'apartment_building': addVP(p,3); break;
+    case 'commuter_train': addVP(p,2); break;
+    case 'corner_store': addVP(p,1); break;
+    case 'skyscraper': addVP(p,4); break;
+    case 'energize': gainEnergy(p,9); break;
+    case 'heal': healP(p,2); break;
+    case 'nuclear_power_plant': addVP(p,2); healP(p,3); break;
+    case 'national_guard': addVP(p,2); dealDamage(p,2,p); break;
+    case 'tanks': addVP(p,4); dealDamage(p,3,p); break;
+    case 'jet_fighters': addVP(p,5); dealDamage(p,4,p); break;
+    case 'fire_blast': others.forEach(function(q){dealDamage(q,2,p);}); G.turnFlags.damaged=true; break;
+    case 'gas_refinery': addVP(p,2); others.forEach(function(q){dealDamage(q,3,p);}); G.turnFlags.damaged=true; break;
+    case 'high_altitude_bombing': G.players.filter(function(q){return q.alive;}).forEach(function(q){dealDamage(q,3,p);}); G.turnFlags.damaged=true; break;
+    case 'evacuation_orders': others.forEach(function(q){ q.vp=Math.max(0,q.vp-5); }); break;
+    case 'frenzy': G.extraTurn=true; break;
+    case 'death_from_above':
+      addVP(p,2);
+      if(!p.inTokyo){ var occ=G.players.filter(function(q){return q.alive&&q.inTokyo==='city';})[0];
+        if(occ){ occ.inTokyo=null; log('☄️ '+occ.name+' ถูกผลักออกจาก TOKYO'); }
+        enterTokyo(p,'city'); }
+      break;
+  }
+  flash();
+}
+function doSweep(){
+  if(G.phase!=='buy')return;
+  var p=cur(); if(p.energy<2){ toast('⚡ ต้องมี 2⚡'); return; }
+  p.energy-=2;
+  for(var i=0;i<3;i++){ if(G.shop[i])G.discard.push(G.shop[i].id); G.shop[i]=drawCard(); }
+  G.turnFlags.sweeps++; SND.play('buy'); log('♻️ '+p.name+' SWEEP การ์ดใหม่ 3 ใบ (-2⚡)'); sync();
+}
+function doEndTurn(){
+  if(G.over)return;
+  if(G.phase!=='buy'&&G.phase!=='roll')return;
+  if(G.phase==='roll'&&G.rolled){ doResolve(); return; }
+  var p=cur();
+  if(has(p,'energy_hoarder')){ var b=Math.floor(p.energy/6); if(b>0){ addVP(p,b); log('💰 ENERGY HOARDER +'+b+'⭐'); } }
+  if(has(p,'herbivore')&&!G.turnFlags.damaged){ addVP(p,1); log('🌿 HERBIVORE +1⭐'); }
+  if(has(p,'solar_powered')&&p.energy===0){ gainEnergy(p,1); log('☀️ SOLAR POWERED +1⚡'); }
+  if(has(p,'rooting_underdog')){
+    var low=true; G.players.forEach(function(q){ if(q.alive&&q.id!==p.id&&q.hp<p.hp)low=false; });
+    if(low){ addVP(p,1); log('🐶 ROOTING FOR THE UNDERDOG +1⭐'); } }
+  if(checkWin())return;
+  nextPlayer();
+}
+
+/* =========================================================
+   BOT
+   ========================================================= */
+function scheduleBot(ms){ if(botTimer)clearTimeout(botTimer);
+  botTimer=setTimeout(guard('bot',botTick),ms==null?APP.botSpeed:ms); }
+function botTick(){
+  botTimer=null;
+  if(!G||G.over)return;
+  var p=cur(); if(!p||!isAuto(p))return;
+  try{
+    if(G.phase==='roll'){
+      if(!G.rolled){ doRoll(); }
+      else{
+        botKeep(p);
+        var allKept=true,n=diceCount(p);
+        for(var i=0;i<n;i++) if(!G.dice[i].k) allKept=false;
+        if(has(p,'background_dweller')&&G.turnFlags.bgd<2&&p.bot==='hard'){ var three=false;
+          for(var j=0;j<n;j++) if(G.dice[j].f==='3'&&!G.dice[j].k) three=true;
+          if(three){ doBgd(); return; } }
+        if(G.rollsLeft>0&&!allKept) doRoll(); else doResolve();
+      }
+    } else if(G.phase==='buy'){
+      if(!botBuyOne(p)) doEndTurn();
+    } else if(G.phase==='resolve'||G.phase==='yield'){ /* handled elsewhere */ }
+  }catch(e){ ERR('bot-turn',e); try{ doEndTurn(); }catch(x){} }
+  if(!G.over&&cur()&&isAuto(cur())) scheduleBot();
+}
+function botKeep(p){
+  var lvl=p.bot||'normal', n=diceCount(p), i, counts={'1':0,'2':0,'3':0,'H':0,'E':0,'C':0};
+  for(i=0;i<n;i++) if(G.dice[i].f) counts[G.dice[i].f]++;
+  var tokyoOcc=inTokyoList().length>0, outCount=outTokyoList().length;
+  var hurt=p.maxHp-p.hp, danger=p.hp<=4;
+  for(i=0;i<n;i++){
+    var f=G.dice[i].f; if(!f){G.dice[i].k=false;continue;}
+    var keep=false;
+    if(f==='C'){
+      if(p.inTokyo) keep=outCount>0;
+      else keep=tokyoOcc||emptySlot()!==null;
+      if(lvl==='easy') keep=true;
+      if(p.inTokyo&&p.hp<=3&&lvl==='hard') keep=outCount>0;
+    } else if(f==='H'){
+      keep=(!p.inTokyo&&hurt>0);
+      if(lvl==='hard'&&p.inTokyo) keep=false;
+      if(lvl==='easy') keep=hurt>0;
+    } else if(f==='E'){
+      keep=(lvl==='easy')?(rnd(2)===0):(p.energy<12);
+      if(lvl==='hard'&&danger&&!p.inTokyo) keep=false;
+    } else {
+      var v=parseInt(f,10), c=counts[f];
+      if(c>=3) keep=true;
+      else if(c===2) keep=(lvl!=='easy')||rnd(2)===0;
+      else keep=(lvl==='hard'&&v===3&&p.vp>=15);
+      if(lvl==='hard'&&p.vp>=17&&c>=2) keep=true;
+      if(danger&&!p.inTokyo&&c<3&&lvl!=='easy') keep=false;
+    }
+    G.dice[i].k=keep;
+  }
+}
+function botYield(p,pd){
+  var lvl=p.bot||'normal';
+  var threats=outTokyoList().filter(function(q){return q.id!==p.id;}).length;
+  if(lvl==='easy') return p.hp<=4&&rnd(10)<7;
+  if(lvl==='normal') return p.hp<=5;
+  if(p.vp>=17&&p.hp>=6) return false;
+  if(p.hp<=Math.max(4,Math.min(8,threats+3))) return true;
+  return false;
+}
+function botBuyOne(p){
+  if(G.turnFlags.buys>=3)return false;
+  var lvl=p.bot||'normal', best=-1, bestScore=0, i;
+  for(i=0;i<3;i++){
+    var c=G.shop[i]; if(!c)continue;
+    var cost=cardCost(p,c); if(cost>p.energy)continue;
+    var s=c.v||4;
+    if(c.id==='heal'&&p.hp>=p.maxHp-1)s=1;
+    if(c.id==='extra_head')s=10;
+    if(c.t==='discard'&&/take|รับ/.test(c.x)&&p.hp<=4)s-=3;
+    if(c.id==='jet_fighters'&&p.hp<=5)s=1;
+    if(c.id==='tanks'&&p.hp<=4)s=1;
+    if(c.id==='high_altitude_bombing'&&p.hp<=4)s=1;
+    if(lvl==='easy')s=rnd(8)+1;
+    if(s>bestScore){ bestScore=s; best=i; }
+  }
+  var th=(lvl==='hard')?5:(lvl==='normal'?4:3);
+  if(best>=0&&bestScore>=th){ doBuy(best); return true; }
+  if(lvl==='hard'&&p.energy>=8&&G.turnFlags.sweeps<1&&best<0){ doSweep(); return true; }
+  return false;
+}
+/* watchdog: never hang */
+setInterval(function(){
+  try{
+    if(!G||G.over||!APP.isHost)return;
+    if(G.phase==='yield'&&G.pending&&G.pending.asking){
+      var t=byId(G.pending.asking);
+      if(t&&isAuto(t)&&!yieldTimer) answerYield(t.id,botYield(t,G.pending));
+      return;
+    }
+    var p=cur();
+    if(p&&isAuto(p)&&!botTimer&&G.phase!=='yield') scheduleBot(300);
+  }catch(e){ ERR('watchdog',e); }
+},4000);
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+var PP=[];
+function cachePanels(){ PP=[]; for(var i=0;i<6;i++){ var r=$('pp'+i); if(!r)continue;
+  PP.push({root:r,e:r.querySelector('.pp-ava .e'),name:r.querySelector('.pp-name'),
+    hp:r.querySelector('.s-hp b'),vp:r.querySelector('.s-vp b'),en:r.querySelector('.s-en b'),
+    fill:r.querySelector('.pp-bar .fill'),cards:r.querySelector('.pp-cards'),badge:r.querySelector('.pp-badge')}); } }
+function sync(){ render(); if(APP.mode==='online'&&APP.isHost) NET.broadcast({t:'state',s:snapshot()}); }
+function render(){
+  if(!G)return;
+  try{ renderPlayers(); }catch(e){ ERR('render:players',e); }
+  try{ renderBoard(); }catch(e){ ERR('render:board',e); }
+  try{ renderDice(); }catch(e){ ERR('render:dice',e); }
+  try{ renderControls(); }catch(e){ ERR('render:controls',e); }
+  try{ renderShop(); }catch(e){ ERR('render:shop',e); }
+  try{ renderYield(); }catch(e){ ERR('render:yield',e); }
+}
+function renderPlayers(){
+  for(var i=0;i<6;i++){
+    var s=PP[i]; if(!s)continue;
+    var p=G.players[i];
+    if(!p){ s.root.style.display='none'; continue; }
+    s.root.style.display='';
+    var m=MON[p.mon]||MONSTERS[i];
+    s.e.textContent=m.emoji; s.root.style.setProperty('--mc',m.color);
+    s.name.textContent=p.name;
+    s.hp.textContent=p.hp; s.vp.textContent=p.vp; s.en.textContent=p.energy;
+    s.fill.style.width=Math.max(0,Math.round(100*p.hp/(p.maxHp||10)))+'%';
+    s.root.classList.toggle('active',i===G.turn&&!G.over);
+    s.root.classList.toggle('in-tokyo',!!p.inTokyo);
+    s.root.classList.toggle('dead',!p.alive);
+    var bd = !p.alive?'💀 ตกรอบ' : (p.inTokyo?(p.inTokyo==='city'?'👑 CITY':'🌊 BAY') :
+      (p.isBot?('BOT '+String(p.bot).toUpperCase()) : (p.connected===false?'⚠ หลุด':(p.id===APP.myPid?'YOU':''))));
+    s.badge.textContent=bd;
+    clr(s.cards);
+    p.cards.forEach(function(cid){ var c=CBY[cid]; if(!c)return;
+      var ab=c.n.split(' ').map(function(w){return w.charAt(0);}).join('').slice(0,3);
+      var ch=mk('span','chip',ab); ch.title=c.n; ch.setAttribute('data-card',cid); s.cards.appendChild(ch); });
+  }
+}
+function setSlot(el,p){
+  var mon=el.querySelector('.t-mon'), nm=el.querySelector('.t-name');
+  if(p){ var m=MON[p.mon]||MONSTERS[0]; mon.textContent=m.emoji; mon.classList.remove('empty');
+    nm.textContent=p.name+'  ❤'+p.hp+'  ⭐'+p.vp; el.classList.add('occupied'); }
+  else { mon.textContent='ว่าง'; mon.classList.add('empty'); nm.textContent='—'; el.classList.remove('occupied'); }
+}
+function renderBoard(){
+  var c=null,b=null;
+  G.players.forEach(function(p){ if(p.alive&&p.inTokyo==='city')c=p; if(p.alive&&p.inTokyo==='bay')b=p; });
+  setSlot($('slotCity'),c);
+  $('slotBay').style.display=G.bayActive?'':'none';
+  if(G.bayActive) setSlot($('slotBay'),b);
+  var p2=cur();
+  $('turnLabel').textContent = G.over?'🏆 จบเกม' :
+    ('รอบ '+G.round+' · '+(p2?p2.name:'-')+' · '+
+    (G.phase==='roll'?('ทอยได้อีก '+G.rollsLeft):(G.phase==='buy'?'ซื้อการ์ด / จบเทิร์น':(G.phase==='yield'?'รอการตัดสินใจ TOKYO':'ประมวลผล'))));
+}
+function renderDice(){
+  var p=cur(),n=p?diceCount(p):6;
+  for(var i=0;i<8;i++){
+    var d=document.querySelector('.die[data-i="'+i+'"]'); if(!d)continue;
+    if(i>=n){ d.style.display='none'; continue; }
+    d.style.display='';
+    var die=G.dice[i];
+    var sp=d.firstChild;
+    if(die&&die.f){ sp.textContent=GLYPH[die.f]; d.classList.remove('blank'); }
+    else { sp.textContent='?'; d.classList.add('blank'); }
+    d.classList.toggle('kept',!!(die&&die.k));
+    d.classList.toggle('sel',UI.selectMode==='herd');
+    if(die&&die.roll){ fxClass(d,'rolling',520); die.roll=false; }
+  }
+}
+function renderControls(){
+  var p=cur(), mine=!!p&&controlledByMe(p)&&!G.over&&G.phase!=='yield';
+  var r=$('btnRoll'),dn=$('btnDone'),en=$('btnEnd');
+  r.disabled=!(mine&&G.phase==='roll'&&G.rollsLeft>0);
+  r.textContent=(G.rolled?'REROLL':'ROLL')+' ('+Math.max(0,G.rollsLeft)+')';
+  dn.disabled=!(mine&&G.phase==='roll'&&G.rolled);
+  en.disabled=!(mine&&G.phase==='buy');
+  var hc=$('btnHerd'),bg=$('btnBgd'),rp=$('btnRapid');
+  hc.style.display=(p&&has(p,'herd_culler')&&mine&&G.phase==='roll'&&G.rolled&&!G.turnFlags.herd)?'':'none';
+  hc.textContent=UI.selectMode==='herd'?'เลือกลูกเต๋า…':'HERD CULLER';
+  bg.style.display=(p&&has(p,'background_dweller')&&mine&&G.phase==='roll'&&G.rolled)?'':'none';
+  rp.style.display=(p&&has(p,'rapid_healing')&&mine&&p.energy>=2&&p.hp<p.maxHp&&(G.phase==='roll'||G.phase==='buy'))?'':'none';
+  $('shopEnergy').textContent='⚡'+(p?p.energy:0);
+  $('btnSweep').disabled=!(mine&&G.phase==='buy'&&p.energy>=2);
+}
+function renderShop(){
+  var p=cur(), mine=!!p&&controlledByMe(p)&&G.phase==='buy'&&!G.over;
+  for(var i=0;i<3;i++){
+    var el=$('sc'+i),c=G.shop[i];
+    if(!c){ el.style.visibility='hidden'; continue; }
+    el.style.visibility='';
+    el.querySelector('.cn').textContent=c.n;
+    el.querySelector('.cx').textContent=c.x;
+    var cost=p?cardCost(p,c):c.c;
+    el.querySelector('.cc').textContent='⚡'+cost;
+    var tag=el.querySelector('.tagK')||el.querySelector('.tagD');
+    tag.textContent=c.t==='keep'?'KEEP':'DISCARD';
+    tag.className=c.t==='keep'?'tagK':'tagD';
+    el.classList.toggle('buyable',!!(mine&&p.energy>=cost));
+  }
+}
+function renderYield(){
+  var pd=G.pending;
+  if(G.phase==='yield'&&pd&&pd.asking){
+    var t=byId(pd.asking);
+    if(t&&controlledByMe(t)&&!isAuto(t)){
+      $('myText').textContent=t.name+' เสีย '+(pd.taken[t.id]||0)+' ❤ (เหลือ '+t.hp+'❤) — จะออกจาก TOKYO ให้ '+(byId(pd.attacker)?byId(pd.attacker).name:'ผู้โจมตี')+' เข้าแทนหรือไม่?';
+      openModal('modalYield');
+    } else closeModal('modalYield');
+  } else closeModal('modalYield');
+}
+function showWin(){
+  var w=G.winner?byId(G.winner):null;
+  var m=w?(MON[w.mon]||MONSTERS[0]):null;
+  $('winEmoji').textContent=m?m.emoji:'💀';
+  $('winTitle').textContent=w?(w.name+' คือ KING OF TOKYO!'):'ไม่มีผู้รอดชีวิต';
+  $('winText').textContent=w?('⭐ '+w.vp+' คะแนน · ❤ '+w.hp+' · '+(w.vp>=20?'ชนะด้วย 20 คะแนน':'เป็นมอนสเตอร์ตัวสุดท้ายที่รอด')):'—';
+  openModal('modalWin');
+}
+
+/* =========================================================
+   MODAL / SCREEN
+   ========================================================= */
+function openModal(id){ var m=$(id); if(m)m.classList.add('open'); }
+function closeModal(id){ var m=$(id); if(m)m.classList.remove('open'); }
+function showScreen(n){ ['Menu','Setup','Online','Game'].forEach(function(s){
+    var el=$('screen'+s); if(el) el.classList.toggle('active',('screen'+s)===('screen'+n)); }); }
+
+/* =========================================================
+   SNAPSHOT (network)
+   ========================================================= */
+function snapshot(){
+  return {players:G.players.map(function(p){ return {id:p.id,name:p.name,mon:p.mon,hp:p.hp,maxHp:p.maxHp,vp:p.vp,
+      energy:p.energy,inTokyo:p.inTokyo,alive:p.alive,cards:p.cards.slice(),isBot:p.isBot,bot:p.bot,human:p.human,connected:p.connected,seat:p.seat};}),
+    turn:G.turn,phase:G.phase,dice:G.dice.map(function(d){return {f:d.f,k:d.k,roll:!!d.roll};}),
+    rollsLeft:G.rollsLeft,rolled:G.rolled,shop:G.shop.map(function(c){return c?c.id:null;}),
+    bayActive:G.bayActive,over:G.over,winner:G.winner,round:G.round,
+    pending:G.pending?{type:G.pending.type,asking:G.pending.asking,attacker:G.pending.attacker,taken:G.pending.taken,claws:G.pending.claws}:null,
+    log:G.log.slice(-6),turnFlags:G.turnFlags};
+}
+function applySnapshot(s){
+  try{
+    G={players:s.players,turn:s.turn,phase:s.phase,dice:s.dice,rollsLeft:s.rollsLeft,rolled:s.rolled,
+      shop:s.shop.map(function(id){return id?CBY[id]:null;}),bayActive:s.bayActive,over:s.over,winner:s.winner,
+      round:s.round,pending:s.pending,log:s.log||[],turnFlags:s.turnFlags||{},deck:[],discard:[],extraTurn:false};
+    if(G.log.length) $('ticker').textContent=G.log[G.log.length-1];
+    if(!$('screenGame').classList.contains('active')) showScreen('Game');
+    render();
+    if(G.over) showWin();
+  }catch(e){ ERR('applySnapshot',e); }
+}
+
+/* =========================================================
+   NETWORK (PeerJS P2P)
+   ========================================================= */
+var LOBBY={seats:[],code:null};
+var NET={peer:null,conns:[],hostConn:null,code:null,myName:'',tries:0,
+ status:function(t){ var e=$('netStatus'); if(e)e.textContent='สถานะ: '+t; },
+ send:function(m){ try{ if(this.hostConn&&this.hostConn.open)this.hostConn.send(m); }catch(e){ERR('net-send',e);} },
+ broadcast:function(m){ this.conns.forEach(function(c){ try{ if(c.open)c.send(m); }catch(e){} }); }
+};
+function peerReady(){ return (typeof Peer!=='undefined')&&!window.__PEER_FAIL; }
+function randCode(){ var A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s=''; for(var i=0;i<5;i++)s+=A.charAt(rnd(A.length)); return s; }
+function pid(code){ return 'KOTAPO-'+code; }
+function createRoom(){
+  if(!peerReady()){ NET.status('❌ โหลดไลบรารี P2P ไม่ได้ — เล่นออนไลน์ไม่ได้ (โหมดในเครื่องยังใช้ได้)'); return; }
+  var name=($('onName').value||'HOST').slice(0,12);
+  NET.myName=name; APP.mode='online'; APP.isHost=true;
+  var code=randCode(); NET.status('กำลังสร้างห้อง '+code+'…');
+  try{
+    if(NET.peer){ try{NET.peer.destroy();}catch(e){} }
+    NET.peer=new Peer(pid(code),{debug:0});
+  }catch(e){ ERR('peer-create',e); NET.status('❌ สร้าง Peer ไม่สำเร็จ'); return; }
+  NET.peer.on('open',guard('peer-open',function(){
+    NET.code=code; LOBBY.code=code;
+    APP.myPid='h0';
+    LOBBY.seats=[{id:'h0',name:name,monId:MONSTERS[0].id,isBot:false,human:true,connected:true}];
+    $('lobbyBox').style.display='block'; $('hostTools').style.display='flex';
+    $('roomCodeText').textContent=code;
+    NET.status('✅ ห้องพร้อม — แชร์รหัสให้เพื่อน');
+    renderLobby(LOBBY.seats);
+  }));
+  NET.peer.on('error',guard('peer-err',function(err){
+    if(err&&err.type==='unavailable-id'){ NET.status('รหัสชนกัน กำลังสุ่มใหม่…'); setTimeout(createRoom,300); }
+    else NET.status('⚠ '+(err&&err.type?err.type:'error'));
+  }));
+  NET.peer.on('connection',guard('peer-conn',function(conn){
+    NET.conns.push(conn);
+    conn.on('data',function(d){ hostOnData(conn,d); });
+    conn.on('close',function(){ hostOnClose(conn); });
+    conn.on('error',function(e){ ERR('conn',e); });
+  }));
+}
+function hostOnData(conn,d){
+  try{
+    if(!d||!d.t)return;
+    if(d.t==='hello'){
+      var nm=(d.name||'PLAYER').slice(0,12);
+      var seat=null,i;
+      var pool = G?G.players:LOBBY.seats;
+      for(i=0;i<pool.length;i++){ if(String(pool[i].name).toLowerCase()===nm.toLowerCase()&&pool[i].human){ seat=pool[i]; break; } }
+      if(!seat){
+        if(G){ conn.send({t:'denied',msg:'เกมเริ่มไปแล้ว — ใช้ชื่อเดิมเพื่อกลับเข้าเกม'}); return; }
+        if(LOBBY.seats.length>=6){ conn.send({t:'denied',msg:'ห้องเต็ม (6 คน)'}); return; }
+        var used=LOBBY.seats.map(function(s){return s.monId;});
+        var free=MONSTERS.filter(function(m){return used.indexOf(m.id)<0;})[0]||MONSTERS[0];
+        seat={id:'c'+Date.now().toString(36)+rnd(99),name:nm,monId:free.id,isBot:false,human:true,connected:true};
+        LOBBY.seats.push(seat);
+      }
+      seat.connected=true; conn.__pid=seat.id;
+      conn.send({t:'welcome',pid:seat.id,code:NET.code});
+      if(G){ G.players.forEach(function(p){ if(p.id===seat.id)p.connected=true; }); sync(); }
+      else { NET.broadcast({t:'lobby',seats:LOBBY.seats,code:NET.code}); renderLobby(LOBBY.seats); }
+      toast('👾 '+seat.name+' เข้าห้องแล้ว');
+    }
+    else if(d.t==='act'){ if(conn.__pid) hostApply(d.a,conn.__pid); }
+    else if(d.t==='pickmon'){
+      var s=null,src=G?G.players:LOBBY.seats;
+      src.forEach(function(x){ if(x.id===conn.__pid)s=x; });
+      if(s&&!G){ cycleMon(s,src); NET.broadcast({t:'lobby',seats:LOBBY.seats,code:NET.code}); renderLobby(LOBBY.seats); }
+    }
+  }catch(e){ ERR('host-data',e); }
+}
+function hostOnClose(conn){
+  try{
+    NET.conns=NET.conns.filter(function(c){return c!==conn;});
+    var id=conn.__pid; if(!id)return;
+    if(G){ var p=byId(id); if(p){ p.connected=false; log('⚠ '+p.name+' หลุดการเชื่อมต่อ (BOT รับช่วง)'); sync();
+        if(cur()&&cur().id===id&&isAuto(cur())) scheduleBot(800); } }
+    else { LOBBY.seats.forEach(function(s){ if(s.id===id)s.connected=false; });
+      NET.broadcast({t:'lobby',seats:LOBBY.seats,code:NET.code}); renderLobby(LOBBY.seats); }
+  }catch(e){ ERR('host-close',e); }
+}
+function joinRoom(){
+  if(!peerReady()){ NET.status('❌ โหลดไลบรารี P2P ไม่ได้'); return; }
+  var code=($('onCode').value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,5);
+  if(code.length!==5){ NET.status('กรุณาใส่รหัสห้อง 5 ตัวอักษร'); return; }
+  var name=($('onName').value||'PLAYER').slice(0,12);
+  NET.myName=name; NET.code=code; APP.mode='online'; APP.isHost=false;
+  NET.status('กำลังเชื่อมต่อห้อง '+code+'…');
+  try{ if(NET.peer){try{NET.peer.destroy();}catch(e){}} NET.peer=new Peer(null,{debug:0}); }
+  catch(e){ ERR('peer-join',e); NET.status('❌ เชื่อมต่อไม่ได้'); return; }
+  NET.peer.on('open',guard('join-open',function(){
+    var conn=NET.peer.connect(pid(code),{reliable:true});
+    NET.hostConn=conn;
+    conn.on('open',function(){ NET.tries=0; NET.status('✅ เชื่อมต่อแล้ว'); conn.send({t:'hello',name:name}); });
+    conn.on('data',function(d){ clientOnData(d); });
+    conn.on('close',function(){ NET.status('⚠ หลุดการเชื่อมต่อ — กำลังเชื่อมใหม่…'); retryJoin(); });
+    conn.on('error',function(e){ ERR('client-conn',e); });
+  }));
+  NET.peer.on('error',guard('join-err',function(err){
+    NET.status('⚠ '+(err&&err.type?err.type:'error')+' — ตรวจรหัสห้องอีกครั้ง'); }));
+}
+function retryJoin(){ if(NET.tries>6)return; NET.tries++; setTimeout(function(){ joinRoom(); },2200); }
+function clientOnData(d){
+  try{
+    if(!d||!d.t)return;
+    if(d.t==='welcome'){ APP.myPid=d.pid; $('lobbyBox').style.display='block'; $('hostTools').style.display='none';
+      $('roomCodeText').textContent=d.code||NET.code; }
+    else if(d.t==='lobby'){ LOBBY.seats=d.seats; renderLobby(d.seats); }
+    else if(d.t==='state'){ applySnapshot(d.s); }
+    else if(d.t==='denied'){ NET.status('❌ '+d.msg); }
+  }catch(e){ ERR('client-data',e); }
+}
+function cycleMon(seat,all){
+  var used=all.filter(function(s){return s!==seat;}).map(function(s){return s.monId;});
+  var idx=MONSTERS.map(function(m){return m.id;}).indexOf(seat.monId);
+  for(var k=1;k<=6;k++){ var m=MONSTERS[(idx+k)%6]; if(used.indexOf(m.id)<0){ seat.monId=m.id; return; } }
+}
+function renderLobby(seats){
+  var box=$('lobbyList'); if(!box)return; clr(box);
+  seats.forEach(function(s){
+    var m=MON[s.monId]||MONSTERS[0];
+    var r=mk('div','lobby-row');
+    r.appendChild(mk('span','e',m.emoji));
+    r.appendChild(mk('span','nm',s.name+(s.id===APP.myPid?' (คุณ)':'')+(s.isBot?' [BOT]':'')));
+    var dt=mk('span','dot'+(s.connected===false?' off':'')); r.appendChild(dt);
+    box.appendChild(r);
+  });
+}
+function startOnlineGame(){
+  if(!APP.isHost)return;
+  if(LOBBY.seats.length<2){ toast('ต้องมีอย่างน้อย 2 ผู้เล่น'); return; }
+  var seats=LOBBY.seats.slice(0,6).map(function(s){ return {id:s.id,name:s.name,monId:s.monId,isBot:!!s.isBot,bot:s.bot||'normal',human:!s.isBot,connected:s.connected!==false}; });
+  newGame(seats); showScreen('Game'); sync();
+}
+
+/* =========================================================
+   SETUP UI
+   ========================================================= */
+var setupCount=4;
+function seatEls(){ return Array.prototype.slice.call(document.querySelectorAll('#seatsBox .seat')); }
+function applyCount(n){ setupCount=n;
+  seatEls().forEach(function(s,i){ s.style.display=(i<n)?'':'none'; });
+  Array.prototype.slice.call(document.querySelectorAll('#countSeg button')).forEach(function(b){
+    b.classList.toggle('on',parseInt(b.getAttribute('data-n'),10)===n); }); }
+function seatMonId(i){ var s=seatEls()[i]; return s?s.getAttribute('data-mon')||MONSTERS[i].id:MONSTERS[i].id; }
+function setSeatMon(i,id){ var s=seatEls()[i]; if(!s)return; s.setAttribute('data-mon',id);
+  var m=MON[id]; s.querySelector('.seat-ava .e').textContent=m?m.emoji:'❓'; }
+function openPicker(i){
+  UI.pickSeat=i;
+  var grid=$('pickGrid'); clr(grid);
+  var taken={}; seatEls().forEach(function(s,k){ if(k<setupCount&&k!==i) taken[seatMonId(k)]=true; });
+  MONSTERS.forEach(function(m){
+    var b=mk('button','pk'+(taken[m.id]?' taken':'')); b.type='button';
+    var e=mk('span','e',m.emoji); e.style.color=m.color;
+    b.appendChild(e); b.appendChild(mk('div','n',m.name));
+    b.onclick=function(){ if(taken[m.id]){ toast('มอนสเตอร์นี้ถูกเลือกแล้ว'); return; } setSeatMon(i,m.id); closeModal('modalPick'); };
+    grid.appendChild(b); });
+  openModal('modalPick');
+}
+function startLocal(){
+  var seats=[],used={};
+  for(var i=0;i<setupCount;i++){
+    var s=seatEls()[i];
+    var nm=(s.querySelector('.seat-name').value||('ผู้เล่น '+(i+1))).slice(0,12);
+    var tp=s.querySelector('.seat-type').value;
+    var mid=seatMonId(i);
+    if(used[mid]){ for(var k=0;k<6;k++){ if(!used[MONSTERS[k].id]){ mid=MONSTERS[k].id; break; } } }
+    used[mid]=true; setSeatMon(i,mid);
+    seats.push({id:'p'+i,name:nm,monId:mid,isBot:tp!=='human',bot:tp==='human'?'normal':tp,human:tp==='human',connected:true});
+  }
+  APP.mode='local'; APP.isHost=true; APP.myPid=null;
+  newGame(seats); showScreen('Game'); render();
+}
+
+/* =========================================================
+   INIT / EVENTS
+   ========================================================= */
+function buildSkyline(){
+  try{
+    ['skyFar','skyNear'].forEach(function(id,layer){
+      var sky=$(id); if(!sky)return; clr(sky);
+      var n=layer===0?26:20;
+      for(var i=0;i<n;i++){
+        var b=mk('div','bld');
+        var h=(layer===0?12:18)+rnd(layer===0?22:30);
+        b.style.height=h+'vh';
+        b.style.flexBasis=(3+rnd(5))+'vw';
+        sky.appendChild(b);
+      }
+    });
+  }catch(e){ ERR('skyline',e); }
+}
+function bindEvents(){
+  /* menu */
+  $('btnLocal').onclick=function(){ showScreen('Setup'); };
+  $('btnOnlineMenu').onclick=function(){ showScreen('Online');
+    if(!peerReady()) NET.status('❌ โหลดไลบรารี P2P ไม่ได้ (ออฟไลน์/ถูกบล็อก) — โหมดในเครื่องยังเล่นได้ปกติ');
+    else NET.status('พร้อม'); };
+  $('btnRules').onclick=function(){ openModal('modalRules'); };
+  $('btnSettings').onclick=function(){ openModal('modalSettings'); };
+  document.addEventListener('click',function(e){
+    var t=e.target.closest?e.target.closest('[data-goto]'):null;
+    if(t){ showScreen(t.getAttribute('data-goto')==='menu'?'Menu':t.getAttribute('data-goto')); }
+    var c=e.target.closest?e.target.closest('[data-close]'):null;
+    if(c){ closeModal(c.getAttribute('data-close')); }
+  });
+  /* setup */
+  $('countSeg').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return;
+    applyCount(parseInt(b.getAttribute('data-n'),10)); });
+  $('seatsBox').addEventListener('click',function(e){ var b=e.target.closest('.seat-ava'); if(!b)return;
+    var seat=b.closest('.seat'); openPicker(parseInt(seat.getAttribute('data-i'),10)); });
+  $('btnStartLocal').onclick=guard('start-local',startLocal);
+  /* online */
+  $('btnCreateRoom').onclick=guard('create',createRoom);
+  $('btnJoinRoom').onclick=guard('join',joinRoom);
+  $('btnCopyLink').onclick=function(){
+    var url=location.origin+location.pathname+'?room='+(NET.code||'');
+    try{ navigator.clipboard.writeText(url); toast('📋 คัดลอกลิงก์แล้ว'); }
+    catch(e){ prompt('คัดลอกลิงก์นี้',url); } };
+  $('btnPickMon').onclick=function(){
+    if(APP.isHost){ var s=null; LOBBY.seats.forEach(function(x){ if(x.id===APP.myPid)s=x; });
+      if(s){ cycleMon(s,LOBBY.seats); renderLobby(LOBBY.seats); NET.broadcast({t:'lobby',seats:LOBBY.seats,code:NET.code}); } }
+    else NET.send({t:'pickmon'}); };
+  $('btnAddBot').onclick=function(){ if(!APP.isHost)return;
+    if(LOBBY.seats.length>=6){ toast('เต็มแล้ว'); return; }
+    var used=LOBBY.seats.map(function(s){return s.monId;});
+    var free=MONSTERS.filter(function(m){return used.indexOf(m.id)<0;})[0];
+    if(!free)return;
+    LOBBY.seats.push({id:'b'+rnd(99999),name:'BOT '+free.name.split(' ')[0],monId:free.id,isBot:true,bot:'normal',human:false,connected:true});
+    renderLobby(LOBBY.seats); NET.broadcast({t:'lobby',seats:LOBBY.seats,code:NET.code}); };
+  $('btnDelBot').onclick=function(){ if(!APP.isHost)return;
+    for(var i=LOBBY.seats.length-1;i>=0;i--){ if(LOBBY.seats[i].isBot){ LOBBY.seats.splice(i,1); break; } }
+    renderLobby(LOBBY.seats); NET.broadcast({t:'lobby',seats:LOBBY.seats,code:NET.code}); };
+  $('btnStartOnline').onclick=guard('start-online',startOnlineGame);
+  /* game */
+  $('btnRoll').onclick=function(){ UI.selectMode=null; act({k:'roll'}); };
+  $('btnDone').onclick=function(){ UI.selectMode=null; act({k:'done'}); };
+  $('btnEnd').onclick=function(){ UI.selectMode=null; act({k:'end'}); };
+  $('btnSweep').onclick=function(){ act({k:'sweep'}); };
+  $('btnHerd').onclick=function(){ UI.selectMode=(UI.selectMode==='herd')?null:'herd'; render(); toast('แตะลูกเต๋าที่ต้องการเปลี่ยนเป็น [1]'); };
+  $('btnBgd').onclick=function(){ act({k:'bgd'}); };
+  $('btnRapid').onclick=function(){ act({k:'rapid'}); };
+  $('tray').addEventListener('click',function(e){
+    var d=e.target.closest('.die'); if(!d||!G)return;
+    var i=parseInt(d.getAttribute('data-i'),10);
+    var p=cur(); if(!p||!controlledByMe(p))return;
+    if(UI.selectMode==='herd'){ UI.selectMode=null; act({k:'herd',i:i}); return; }
+    act({k:'keep',i:i});
+  });
+  ['sc0','sc1','sc2'].forEach(function(id,i){
+    $(id).addEventListener('click',function(){ if(!G||!G.shop[i])return; openCardModal(G.shop[i],i); }); });
+  $('playersCol').addEventListener('click',function(e){
+    var ch=e.target.closest('.chip'); if(!ch)return;
+    var c=CBY[ch.getAttribute('data-card')]; if(c) openCardModal(c,-1); });
+  $('mcBuy').onclick=function(){ if(UI.cardIdx>=0){ act({k:'buy',i:UI.cardIdx}); closeModal('modalCard'); } };
+  $('btnStay').onclick=function(){ act({k:'yield',v:false}); closeModal('modalYield'); };
+  $('btnLeave').onclick=function(){ act({k:'yield',v:true}); closeModal('modalYield'); };
+  $('btnGameMenu').onclick=function(){ openModal('modalSettings'); };
+  $('btnSound').onclick=function(){ SND.on=!SND.on; if(!SND.on)SND.stopMusic(); else { SND.unlock(); }
+    $('btnSound').firstChild.textContent=SND.on?'🔊':'🔇'; updateSettingBtns(); };
+  $('btnAgain').onclick=function(){ closeModal('modalWin');
+    if(APP.mode==='online'&&!APP.isHost){ toast('รอ Host เริ่มเกมใหม่'); return; }
+    if(LAST_SEATS){ newGame(LAST_SEATS.map(function(s){return s;})); sync(); } };
+  $('btnToMenu').onclick=function(){ closeModal('modalWin'); quitGame(); };
+  $('btnQuit').onclick=function(){ closeModal('modalSettings'); quitGame(); };
+  $('tglSfx').onclick=function(){ SND.on=!SND.on; if(!SND.on)SND.stopMusic(); else SND.unlock(); updateSettingBtns(); };
+  $('tglMusic').onclick=function(){ SND.music=!SND.music; if(SND.music){SND.unlock();}else SND.stopMusic(); updateSettingBtns(); };
+  $('selSpeed').onchange=function(){ APP.botSpeed=parseInt(this.value,10)||850; };
+  $('errClose').onclick=function(){ $('errorPanel').style.display='none'; };
+  document.addEventListener('pointerdown',function(){ SND.unlock(); },{once:true});
+  document.querySelectorAll('.modal').forEach(function(m){
+    m.addEventListener('click',function(e){ if(e.target===m&&m.id!=='modalYield')m.classList.remove('open'); }); });
+}
+function updateSettingBtns(){
+  $('tglSfx').textContent=SND.on?'เปิด':'ปิด';
+  $('tglMusic').textContent=SND.music?'เปิด':'ปิด';
+  var b=$('btnSound'); if(b&&b.firstChild)b.firstChild.textContent=SND.on?'🔊':'🔇';
+}
+function openCardModal(c,i){
+  UI.cardIdx=i;
+  $('mcName').textContent=c.n;
+  var t=$('mcType'); t.textContent=c.t==='keep'?'KEEP':'DISCARD'; t.className=c.t==='keep'?'tagK':'tagD';
+  var p=cur();
+  $('mcCost').textContent='⚡'+(p?cardCost(p,c):c.c);
+  $('mcText').textContent=c.x;
+  var can=(i>=0&&G&&!G.over&&G.phase==='buy'&&p&&controlledByMe(p)&&p.energy>=cardCost(p,c));
+  $('mcBuy').style.display=i>=0?'':'none';
+  $('mcBuy').disabled=!can;
+  openModal('modalCard');
+}
+function quitGame(){
+  if(botTimer){clearTimeout(botTimer);botTimer=null;}
+  if(yieldTimer){clearTimeout(yieldTimer);yieldTimer=null;}
+  G=null; try{ if(NET.peer)NET.peer.destroy(); }catch(e){}
+  NET.peer=null;NET.conns=[];NET.hostConn=null;
+  APP.mode='local';APP.isHost=true;APP.myPid=null;
+  showScreen('Menu');
+}
+/* boot */
+function boot(){
+  try{ buildSkyline(); }catch(e){ ERR('boot:skyline',e); }
+  try{ cachePanels(); }catch(e){ ERR('boot:panels',e); }
+  try{ bindEvents(); }catch(e){ ERR('boot:events',e); }
+  try{ applyCount(4); for(var i=0;i<6;i++) setSeatMon(i,MONSTERS[i].id); }catch(e){ ERR('boot:setup',e); }
+  try{ updateSettingBtns(); }catch(e){ ERR('boot:settings',e); }
+  try{
+    var q=location.search.match(/[?&]room=([A-Za-z0-9]{5})/);
+    if(q){ $('onCode').value=q[1].toUpperCase(); showScreen('Online');
+      NET.status(peerReady()?('พบรหัสห้อง '+q[1].toUpperCase()+' — ใส่ชื่อแล้วกด “เข้าร่วม”'):'❌ โหลดไลบรารี P2P ไม่ได้'); }
+  }catch(e){ ERR('boot:deeplink',e); }
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',guard('boot',boot));
+else guard('boot',boot)();
+})();
+</script>
+</body>
+</html>
